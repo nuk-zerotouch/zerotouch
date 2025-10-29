@@ -1,0 +1,21 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ZeroTouch.UI.ViewModels"
+             x:Class="ZeroTouch.UI.Views.GestureDebugView"
+             x:DataType="vm:GestureDebugViewModel">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
+
+        <TextBlock Text="Connection Status:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding ConnectionStatus}" FontSize="18" />
+
+        <TextBlock Text="Last Gesture:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding LastGesture}" FontSize="18" />
+
+        <TextBlock Text="Confidence:" FontWeight="Bold"/>
+        <TextBlock Text="{Binding Confidence, StringFormat='{}{0:F2}'}" FontSize="18" />
+
+        <Button Content="Connect" Command="{Binding ConnectToBackendCommand}" Width="200"/>
+        <Button Content="Disconnect" Command="{Binding DisconnectCommand}" Width="200"/>
+    </StackPanel>
+</UserControl>
