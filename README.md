@@ -105,7 +105,7 @@ error NETSDK1004: Assets file '..\project.assets.json' not found. Run a NuGet pa
 It means dependencies were not restored. Please re-run: 
 
 ```bash
-dotnet restore.
+dotnet restore
 ```
 
 <br>
@@ -118,7 +118,7 @@ To start the Avalonia UI app:
 dotnet run --project ZeroTouch.UI
 ```
 
-Or simply press F5 in Visual Studio to start debugging.
+Or simply press `F5` in Visual Studio to start debugging.
 
 <br>
 
