@@ -7,137 +7,163 @@
              x:Class="ZeroTouch.UI.Views.MainDashboardView"
              x:DataType="vm:MainDashboardViewModel">
 
-    <Viewbox Stretch="Uniform" StretchDirection="Both">
-        <Border CornerRadius="30"
+	<UserControl.Styles>
+		<Style Selector="Button.dock-btn">
+			<Setter Property="Width" Value="70"/>
+			<Setter Property="Height" Value="70"/>
+			<Setter Property="CornerRadius" Value="35"/>
+			<Setter Property="Background" Value="#202020"/>
+			<Setter Property="HorizontalAlignment" Value="Center"/>
+			<Setter Property="VerticalAlignment" Value="Center"/>
+			<Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+			<Setter Property="RenderTransform">
+				<ScaleTransform ScaleX="1.0" ScaleY="1.0"/>
+			</Setter>
+
+			<Style Selector="^:pointerover">
+				<Setter Property="Background" Value="#404040"/>
+				<Setter Property="RenderTransform">
+					<ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+				</Setter>
+			</Style>
+		</Style>
+	</UserControl.Styles>
+
+	<Viewbox Stretch="Uniform" StretchDirection="Both">
+		<Border CornerRadius="30"
                 Background="#121212"
                 Padding="20"
                 BoxShadow="0 0 25 #0008">
 
-            <Grid RowDefinitions="*,*" ColumnDefinitions="Auto,2*,*">
+			<Grid RowDefinitions="*,*" ColumnDefinitions="Auto,2*,*">
 
-                <!-- Left App Bar -->
-                <StackPanel Grid.RowSpan="2"
-                            Grid.Column="0"
-                            Orientation="Vertical"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Spacing="30"
-                            Margin="10,0,20,0">
+				<!-- Left App Bar with Dock style -->
+				<Panel Grid.RowSpan="2"
+                       Grid.Column="0"
+                       Margin="10"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center">
+					
+					<Border Background="#20FFFFFF"
+                            CornerRadius="40"
+                            Padding="15"
+                            BoxShadow="0 0 20 #0006">
+						<Border.Effect>
+							<BlurEffect Radius="12"/>
+						</Border.Effect>
+					</Border>
 
-                    <!-- Home -->
-                    <Button Width="70" Height="70" CornerRadius="35">
-                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
-                               Width="40"
-                               Height="40"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    </Button>
+					<Border Background="Transparent"
+                            CornerRadius="40"
+                            Padding="15">
+						<StackPanel Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Spacing="30">
 
-                    <!-- Phone -->
-                    <Button Width="70" Height="70" CornerRadius="35">
-                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
-                               Width="40"
-                               Height="40"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    </Button>
+							<!-- Home -->
+							<Button Classes="dock-btn">
+								<Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
+                                       Width="40" Height="40"/>
+							</Button>
 
-					<!-- Google Maps -->
-                    <Button Width="70" Height="70" CornerRadius="35">
-                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
-                               Width="40"
-                               Height="40"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    </Button>
+							<!-- Phone -->
+							<Button Classes="dock-btn">
+								<Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
+                                       Width="40" Height="40"/>
+							</Button>
 
-					<!-- Settings -->
-                    <Button Width="70" Height="70" CornerRadius="35">
-                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
-                               Width="40"
-                               Height="40"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                    </Button>
-                </StackPanel>
+							<!-- Google Maps -->
+							<Button Classes="dock-btn">
+								<Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
+                                       Width="40" Height="40"/>
+							</Button>
 
-                <!-- Map Panel -->
-                <Border Grid.Row="0"
+							<!-- Settings -->
+							<Button Classes="dock-btn">
+								<Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
+                                       Width="40" Height="40"/>
+							</Button>
+						</StackPanel>
+					</Border>
+				</Panel>
+
+				<!-- Map Panel -->
+				<Border Grid.Row="0"
                         Grid.Column="1"
                         CornerRadius="25"
                         Background="#1E1E1E"
                         Margin="12">
-                    <TextBlock Text="Map View (Placeholder)"
+					<TextBlock Text="Map View (Placeholder)"
                                Foreground="#DDDDDD"
                                FontSize="32"
                                FontWeight="Medium"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
-                </Border>
+				</Border>
 
-                <!-- Info Panel -->
-                <Border Grid.Row="1"
+				<!-- Info Panel -->
+				<Border Grid.Row="1"
                         Grid.Column="1"
                         CornerRadius="25"
                         Background="#191919"
                         Margin="12">
-                    <TextBlock Text="Navigation Info (Placeholder)"
+					<TextBlock Text="Navigation Info (Placeholder)"
                                Foreground="#AAAAAA"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"/>
-                </Border>
+				</Border>
 
-                <!-- Right Panels -->
-                <Grid Grid.RowSpan="2"
+				<!-- Right Panels -->
+				<Grid Grid.RowSpan="2"
                       Grid.Column="2"
                       RowDefinitions="*,*">
 
-                    <!-- Weather -->
-                    <Border Grid.Row="0"
+					<!-- Weather -->
+					<Border Grid.Row="0"
                             CornerRadius="25"
                             Background="#202020"
                             Margin="12">
-                        <StackPanel Margin="15" Spacing="8">
-                            <TextBlock Text="🌤️ Kaohsiung"
+						<StackPanel Margin="15" Spacing="8">
+							<TextBlock Text="🌤️ Kaohsiung"
                                        FontWeight="Bold"
                                        FontSize="26"
                                        Foreground="#FFFFFF"/>
-                            <TextBlock Text="27°C, Sunny"
+							<TextBlock Text="27°C, Sunny"
                                        FontSize="20"
                                        Foreground="#BBBBBB"/>
-                        </StackPanel>
-                    </Border>
+						</StackPanel>
+					</Border>
 
-                    <!-- Music -->
-                    <Border Grid.Row="1"
+					<!-- Music -->
+					<Border Grid.Row="1"
                             CornerRadius="25"
                             Background="#D93C3C"
                             Margin="12">
-                        <StackPanel Margin="15" Spacing="8">
-                            <TextBlock Text="🎵 Hope"
+						<StackPanel Margin="15" Spacing="8">
+							<TextBlock Text="🎵 Hope"
                                        FontWeight="Bold"
                                        FontSize="22"
                                        Foreground="White"/>
-                            <TextBlock Text="Andy"
+							<TextBlock Text="Andy"
                                        FontSize="16"
                                        Foreground="#F0F0F0"/>
 
 							<!-- Play button -->
-                            <Button Width="40"
+							<Button Width="40"
                                     Height="40"
                                     Margin="0,10,0,0"
                                     CornerRadius="20"
-                                    HorizontalAlignment="Center">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
+                                    HorizontalAlignment="Center"
+                                    Background="#C23030">
+								<Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
                                        Width="24"
-                                       Height="24"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"/>
-                            </Button>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </Grid>
-        </Border>
-    </Viewbox>
+                                       Height="24"/>
+							</Button>
+						</StackPanel>
+					</Border>
+				</Grid>
+			</Grid>
+		</Border>
+	</Viewbox>
 </UserControl>
