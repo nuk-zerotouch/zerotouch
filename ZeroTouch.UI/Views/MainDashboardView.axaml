@@ -144,14 +144,15 @@
                             CornerRadius="25"
                             Background="#202020"
                             Margin="12">
-                        <StackPanel Margin="15" Spacing="8">
-                            <TextBlock Text="🌤️ Kaohsiung"
+                        <StackPanel Margin="15" Spacing="6">
+                            <TextBlock Text="{Binding Location, StringFormat=目前天氣: {0}}"
                                        FontWeight="Bold"
                                        FontSize="26"
                                        Foreground="#FFFFFF"/>
-                            <TextBlock Text="27°C, Sunny"
-                                       FontSize="20"
-                                       Foreground="#BBBBBB"/>
+                            <TextBlock Text="{Binding Temperature}" FontSize="20" Foreground="#DDDDDD"/>
+                            <TextBlock Text="{Binding WeatherCondition}" FontSize="18" Foreground="#BBBBBB"/>
+                            <TextBlock Text="{Binding Pop}" FontSize="16" Foreground="#AAAAAA"/>
+                            <TextBlock Text="{Binding Comfort}" FontSize="16" Foreground="#AAAAAA"/>
                         </StackPanel>
                     </Border>
 
@@ -161,7 +162,7 @@
                             Background="#D93C3C"
                             Margin="12">
                         <StackPanel Margin="15" Spacing="8">
-                            <TextBlock Text="🎵 Hope"
+                            <TextBlock Text="🎵 Player"
                                        FontWeight="Bold"
                                        FontSize="22"
                                        Foreground="White"/>

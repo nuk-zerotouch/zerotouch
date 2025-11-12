@@ -1,19 +1,31 @@
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Threading.Tasks;
+using ZeroTouch.UI.Services;
 
 namespace ZeroTouch.UI.ViewModels
 {
     public partial class MainDashboardViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private string _temperature = "27�C";
+        private readonly WeatherService _weatherService = new();
 
-        [ObservableProperty]
-        private string _weatherDescription = "Sunny";
+        [ObservableProperty] private string _location = "高雄市";
+        [ObservableProperty] private string _weatherCondition = "Loading...";
+        [ObservableProperty] private string _temperature = "--°C";
+        [ObservableProperty] private string _pop = "--%";
+        [ObservableProperty] private string _comfort = "Loading...";
 
-        [ObservableProperty]
-        private string _songTitle = "Feelin' True";
+        public MainDashboardViewModel()
+        {
+            _ = LoadWeatherAsync();
+        }
 
-        [ObservableProperty]
-        private string _artistName = "Elisa Jones";
+        private async Task LoadWeatherAsync()
+        {
+            var (condition, temp, pop, comfort) = await _weatherService.GetWeatherAsync(Location);
+            WeatherCondition = condition;
+            Temperature = temp;
+            Pop = pop;
+            Comfort = comfort;
+        }
     }
 }
