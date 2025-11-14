@@ -1,6 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Threading.Tasks;
 using ZeroTouch.UI.Services;
@@ -10,9 +11,7 @@ namespace ZeroTouch.UI.ViewModels
     public partial class MainDashboardViewModel : ViewModelBase
     {
         private readonly WeatherService _weatherService = new();
-
         private bool _testTempBar = false;
-
         [ObservableProperty] private string _location = "高雄市";
         [ObservableProperty] private string _weatherCondition = "Loading...";
         [ObservableProperty] private string _pop = "--%";
@@ -22,10 +21,39 @@ namespace ZeroTouch.UI.ViewModels
         [ObservableProperty] private string _maxTemperature = "--°";
         [ObservableProperty] private IBrush _temperatureBarBrush = new SolidColorBrush(Colors.Orange);
 
+        private readonly MusicPlayerService _player;
+        [ObservableProperty] private string _currentSong = "No song";
+        [ObservableProperty] private long _progress;
+        [ObservableProperty] private long _duration;
+        [ObservableProperty] private bool _isPlaying;
+
+        public string PlayPauseIconPath =>
+        IsPlaying
+            ? "avares://ZeroTouch.UI/Assets/Icons/Dark/pause-button.png"
+            : "avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png";
+
+        partial void OnIsPlayingChanged(bool value)
+        {
+            OnPropertyChanged(nameof(PlayPauseIconPath));
+        }
 
         public MainDashboardViewModel()
         {
             _ = LoadWeatherAsync();
+            _player = new MusicPlayerService();
+
+            _player.SetPlaylist(new[]
+            {
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Romantic_Inspiration.mp3",
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Lovely_Piano_Song.mp3"
+            });
+
+            _player.PositionChanged += (pos, dur) =>
+            {
+                Progress = pos;
+                Duration = dur;
+                IsPlaying = true;
+            };
         }
 
         private async Task LoadWeatherAsync()
@@ -145,5 +173,42 @@ namespace ZeroTouch.UI.ViewModels
             };
         }
 
+        [RelayCommand]
+        private void PlayPause()
+        {
+            if (IsPlaying)
+            {
+                _player.Pause();
+                IsPlaying = false;
+            }
+            else
+            {
+                _player.Play();
+                CurrentSong = _player.CurrentSongName;
+                IsPlaying = true;
+            }
+        }
+
+        [RelayCommand]
+        private void Next()
+        {
+            _player.Next();
+            CurrentSong = _player.CurrentSongName;
+            IsPlaying = true;
+        }
+
+        [RelayCommand]
+        private void Previous()
+        {
+            _player.Previous();
+            CurrentSong = _player.CurrentSongName;
+            IsPlaying = true;
+        }
+
+        [RelayCommand]
+        private void Seek(long value)
+        {
+            _player.Seek(value);
+        }
     }
 }
