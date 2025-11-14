@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ZeroTouch.UI.ViewModels"
              xmlns:gif="clr-namespace:Avalonia.Labs.Gif;assembly=Avalonia.Labs.Gif"
+             xmlns:ani="clr-namespace:Avalonia.Animation;assembly=Avalonia.Animation"
              mc:Ignorable="d"
              x:Class="ZeroTouch.UI.Views.MainDashboardView"
              x:DataType="vm:MainDashboardViewModel">
@@ -253,25 +254,58 @@
                             Background="#D93C3C"
                             Margin="12">
                         <StackPanel Margin="15" Spacing="8">
+
                             <TextBlock Text="🎵 Player"
                                        FontWeight="Bold"
                                        FontSize="22"
                                        Foreground="White"/>
-                            <TextBlock Text="Andy"
+
+                            <TextBlock Text="{Binding CurrentSong}"
                                        FontSize="16"
                                        Foreground="#F0F0F0"/>
 
-                            <!-- Play button -->
-                            <Button Width="40"
-                                    Height="40"
-                                    Margin="0,10,0,0"
-                                    CornerRadius="20"
-                                    HorizontalAlignment="Center"
-                                    Background="#C23030">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
-                                       Width="24"
-                                       Height="24"/>
-                            </Button>
+                            <!-- Progress Bar -->
+                            <Slider Minimum="0"
+                                    Maximum="{Binding Duration}"
+                                    Value="{Binding Progress}"
+                                    ValueChanged="MusicSlider_OnValueChanged"/>
+
+                            <!-- Control Buttons -->
+                            <StackPanel Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        Spacing="15"
+                                        Margin="0,10,0,0">
+
+                                <!-- Previous song -->
+                                <Button Width="40"
+                                        Height="40"
+                                        CornerRadius="25"
+                                        Background="#C23030"
+                                        Command="{Binding PreviousCommand}">
+                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
+                                           Width="22"/>
+                                </Button>
+
+                                <!-- Play / Pause shared button -->
+                                <Button Width="50"
+                                        Height="50"
+                                        CornerRadius="25"
+                                        Background="#FFFFFF20"
+                                        Command="{Binding PlayPauseCommand}">
+                                    <Image Width="26"
+                                           Source="{Binding PlayPauseIconPath}"/>
+                                </Button>
+
+                                <!-- Next song -->
+                                <Button Width="40"
+                                        Height="40"
+                                        CornerRadius="25"
+                                        Background="#C23030"
+                                        Command="{Binding NextCommand}">
+                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
+                                           Width="22"/>
+                                </Button>
+                            </StackPanel>
                         </StackPanel>
                     </Border>
                 </Grid>

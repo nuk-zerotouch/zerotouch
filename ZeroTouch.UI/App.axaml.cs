@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using LibVLCSharp.Shared;
 using ZeroTouch.UI.ViewModels;
 using ZeroTouch.UI.Views;
 
@@ -13,6 +14,7 @@ namespace ZeroTouch.UI
     {
         public override void Initialize()
         {
+            Core.Initialize();
             AvaloniaXamlLoader.Load(this);
         }
 
