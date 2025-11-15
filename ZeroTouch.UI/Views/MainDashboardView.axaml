@@ -52,264 +52,290 @@
     </UserControl.Styles>
 
     <Viewbox Stretch="Uniform" StretchDirection="Both">
-        <Border CornerRadius="30"
-                Background="#121212"
-                Padding="20"
-                BoxShadow="0 0 25 #0008">
+        <Grid>
+            
+            <!-- Main Dashboard -->
+            <Border CornerRadius="30"
+                    Background="#121212"
+                    Padding="20"
+                    BoxShadow="0 0 25 #0008">
 
-            <Grid RowDefinitions="*,*" ColumnDefinitions="Auto,2*,*">
+                <Grid RowDefinitions="*,*"
+                      ColumnDefinitions="Auto,2*,*">
 
-                <!-- Left App Bar with Dock style -->
-                <Panel Grid.RowSpan="2"
-                       Grid.Column="0"
-                       Margin="10"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center">
+                    <Grid Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="0"
+                          RowDefinitions="Auto,*"
+                          Margin="12"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Center">
 
-                    <Border Background="#20FFFFFF"
-                            CornerRadius="40"
-                            Padding="15"
-                            BoxShadow="0 0 20 #0006">
-                        <Border.Effect>
-                            <BlurEffect Radius="4"/>
-                        </Border.Effect>
+                        <!-- Clock Capsule! -->
+                        <Border Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,12"
+                                Height="36"
+                                CornerRadius="18"
+                                Background="#2ECC71"
+                                BoxShadow="0 0 8 #0008">
+                            <TextBlock Text="{Binding CurrentTime}"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       FontFamily="Consolas"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="0,7,0,0"/>
+                        </Border>
+
+                        <!-- Left App Bar with Dock style -->
+                        <Panel Grid.Row="1"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Center">
+
+                            <Border Background="#20FFFFFF"
+                                    CornerRadius="40"
+                                    Padding="15"
+                                    BoxShadow="0 0 20 #0006">
+                                <Border.Effect>
+                                    <BlurEffect Radius="4"/>
+                                </Border.Effect>
+                            </Border>
+
+                            <Border Background="Transparent"
+                                    CornerRadius="40"
+                                    Padding="15">
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Spacing="30">
+
+                                    <!-- Home -->
+                                    <Button Classes="dock-btn">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <!-- Phone -->
+                                    <Button Classes="dock-btn">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <!-- Google Maps -->
+                                    <Button Classes="dock-btn">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <!-- Settings -->
+                                    <Button Classes="dock-btn">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </Panel>
+                    </Grid>
+
+                    <!-- Map Panel -->
+                    <Border Grid.Row="0"
+                            Grid.Column="1"
+                            CornerRadius="25"
+                            Background="#1E1E1E"
+                            Margin="12">
+                        <TextBlock Text="Map View (Placeholder)"
+                                   Foreground="#DDDDDD"
+                                   FontSize="32"
+                                   FontWeight="Medium"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Border>
 
-                    <Border Background="Transparent"
-                            CornerRadius="40"
-                            Padding="15">
-                        <StackPanel Orientation="Vertical"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Spacing="30">
-
-                            <!-- Home -->
-                            <Button Classes="dock-btn">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
-                                       Width="40" Height="40"/>
-                            </Button>
-
-                            <!-- Phone -->
-                            <Button Classes="dock-btn">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
-                                       Width="40" Height="40"/>
-                            </Button>
-
-                            <!-- Google Maps -->
-                            <Button Classes="dock-btn">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
-                                       Width="40" Height="40"/>
-                            </Button>
-
-                            <!-- Settings -->
-                            <Button Classes="dock-btn">
-                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
-                                       Width="40" Height="40"/>
-                            </Button>
-                        </StackPanel>
+                    <!-- Info Panel -->
+                    <Border Grid.Row="1"
+                            Grid.Column="1"
+                            CornerRadius="25"
+                            Background="#191919"
+                            Margin="12">
+                        <TextBlock Text="Navigation Info (Placeholder)"
+                                   Foreground="#AAAAAA"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
                     </Border>
-                </Panel>
 
-                <!-- Map Panel -->
-                <Border Grid.Row="0"
-                        Grid.Column="1"
-                        CornerRadius="25"
-                        Background="#1E1E1E"
-                        Margin="12">
-                    <TextBlock Text="Map View (Placeholder)"
-                               Foreground="#DDDDDD"
-                               FontSize="32"
-                               FontWeight="Medium"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                </Border>
+                    <!-- Right Panels -->
+                    <Grid Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="2"
+                          RowDefinitions="*,*">
 
-                <!-- Info Panel -->
-                <Border Grid.Row="1"
-                        Grid.Column="1"
-                        CornerRadius="25"
-                        Background="#191919"
-                        Margin="12">
-                    <TextBlock Text="Navigation Info (Placeholder)"
-                               Foreground="#AAAAAA"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"/>
-                </Border>
+                        <!-- Weather -->
+                        <Border CornerRadius="25"
+                                Background="#202020"
+                                Margin="12"
+                                Padding="18">
 
-                <!-- Right Panels -->
-                <Grid Grid.RowSpan="2"
-                      Grid.Column="2"
-                      RowDefinitions="*,*">
+                            <Grid RowDefinitions="Auto,Auto"
+                                  ColumnDefinitions="*,Auto">
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="0"
+                                            VerticalAlignment="Top"
+                                            Spacing="8">
 
-                    <!-- Weather -->
-                    <Border CornerRadius="25"
-                            Background="#202020"
-                            Margin="12"
-                            Padding="18">
+                                    <!-- Location -->
+                                    <TextBlock Text="{Binding Location}"
+                                               FontWeight="Bold"
+                                               FontSize="22"
+                                               Foreground="#FFFFFF"/>
 
-                        <Grid RowDefinitions="Auto,Auto">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                                    <!-- Weather Condition -->
+                                    <TextBlock Text="{Binding WeatherCondition}"
+                                               FontSize="18"
+                                               Foreground="#DDDDDD"
+                                               Margin="0,10,0,0"/>
 
-                            <!-- Main Top Content -->
-                            <StackPanel Grid.Row="0"
-                                        Grid.Column="0"
-                                        VerticalAlignment="Top"
-                                        Spacing="8">
+                                    <!-- Temperature colored bar -->
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="6"
+                                                Margin="0,4,0,8"
+                                                VerticalAlignment="Center">
 
-                                <!-- Location -->
-                                <TextBlock Text="{Binding Location}"
+                                        <TextBlock Text="{Binding MinTemperature}"
+                                                   FontSize="14"
+                                                   Foreground="#AAAAAA"
+                                                   VerticalAlignment="Center"/>
+
+                                        <Border Width="120"
+                                                Height="6"
+                                                CornerRadius="3"
+                                                Background="{Binding TemperatureBarBrush}" />
+
+                                        <TextBlock Text="{Binding MaxTemperature}"
+                                                   FontSize="14"
+                                                   Foreground="#AAAAAA"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- GIF -->
+                                <gif:GifImage Grid.Row="0"
+                                              Grid.Column="1"
+                                              HorizontalAlignment="Right"
+                                              VerticalAlignment="Top"
+                                              Source="{Binding WeatherIconPath}"
+                                              Width="90"
+                                              Height="90"/>
+
+                                <!-- Info Bar -->
+                                <Grid Grid.Row="1"
+                                      Grid.ColumnSpan="2"
+                                      Margin="0,16,0,0"
+                                      ColumnDefinitions="*,*">
+
+                                    <!-- Precipitation -->
+                                    <StackPanel Grid.Column="0"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Left"
+                                                Spacing="6">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/precipitation.png"
+                                               Width="30"
+                                               Height="30"
+                                               VerticalAlignment="Center"/>
+
+                                        <TextBlock Text="{Binding Pop}"
+                                                   FontSize="16"
+                                                   FontWeight="Medium"
+                                                   Foreground="#CCCCCC"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+
+                                    <!-- Comfortability -->
+                                    <StackPanel Grid.Column="1"
+                                                Orientation="Horizontal"
+                                                HorizontalAlignment="Right"
+                                                Spacing="6"
+                                                Margin="0,0,15,0">
+
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/leaf.png"
+                                               Width="25"
+                                               Height="25"
+                                               VerticalAlignment="Center"/>
+
+                                        <TextBlock Text="{Binding Comfort}"
+                                                   FontSize="16"
+                                                   FontWeight="Medium"
+                                                   Foreground="#CCCCCC"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+
+                        <!-- Music -->
+                        <Border Grid.Row="1"
+                                CornerRadius="25"
+                                Background="#D93C3C"
+                                Margin="12">
+                            <StackPanel Margin="15" Spacing="8">
+
+                                <TextBlock Text="🎵 Player"
                                            FontWeight="Bold"
                                            FontSize="22"
-                                           Foreground="#FFFFFF"/>
+                                           Foreground="White"/>
 
-                                <!-- Weather Condition -->
-                                <TextBlock Text="{Binding WeatherCondition}"
-                                           FontSize="18"
-                                           Foreground="#DDDDDD"
-                                           Margin="0,10,0,0"/>
+                                <TextBlock Text="{Binding CurrentSong}"
+                                           FontSize="16"
+                                           Foreground="#F0F0F0"/>
 
-                                <!-- Temperature colored bar -->
+                                <!-- Progress Bar -->
+                                <Slider Minimum="0"
+                                        Maximum="{Binding Duration}"
+                                        Value="{Binding Progress}"
+                                        ValueChanged="MusicSlider_OnValueChanged"/>
+
+                                <!-- Control Buttons -->
                                 <StackPanel Orientation="Horizontal"
-                                            Spacing="6"
-                                            Margin="0,4,0,8"
-                                            VerticalAlignment="Center">
+                                            HorizontalAlignment="Center"
+                                            Spacing="15"
+                                            Margin="0,10,0,0">
 
-                                    <TextBlock Text="{Binding MinTemperature}"
-                                               FontSize="14"
-                                               Foreground="#AAAAAA"
-                                               VerticalAlignment="Center"/>
+                                    <!-- Previous song -->
+                                    <Button Width="40"
+                                            Height="40"
+                                            CornerRadius="25"
+                                            Background="#C23030"
+                                            Command="{Binding PreviousCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
+                                               Width="22"/>
+                                    </Button>
 
-                                    <Border Width="120"
-                                            Height="6"
-                                            CornerRadius="3"
-                                            Background="{Binding TemperatureBarBrush}" />
+                                    <!-- Play / Pause shared button -->
+                                    <Button Width="50"
+                                            Height="50"
+                                            CornerRadius="25"
+                                            Background="#FFFFFF20"
+                                            Command="{Binding PlayPauseCommand}">
+                                        <Image Width="26"
+                                               Source="{Binding PlayPauseIconPath}"/>
+                                    </Button>
 
-                                    <TextBlock Text="{Binding MaxTemperature}"
-                                               FontSize="14"
-                                               Foreground="#AAAAAA"
-                                               VerticalAlignment="Center"/>
+                                    <!-- Next song -->
+                                    <Button Width="40"
+                                            Height="40"
+                                            CornerRadius="25"
+                                            Background="#C23030"
+                                            Command="{Binding NextCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
+                                               Width="22"/>
+                                    </Button>
                                 </StackPanel>
                             </StackPanel>
-
-                            <!-- GIF -->
-                            <gif:GifImage Grid.Row="0"
-                                          Grid.Column="1"
-                                          HorizontalAlignment="Right"
-                                          VerticalAlignment="Top"
-                                          Source="{Binding WeatherIconPath}"
-                                          Width="90"
-                                          Height="90"/>
-
-                            <!-- Info Bar -->
-                            <Grid Grid.Row="1"
-                                  Grid.ColumnSpan="2"
-                                  Margin="0,16,0,0"
-                                  ColumnDefinitions="*,*">
-
-                                <!-- Precipitation -->
-                                <StackPanel Grid.Column="0"
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Left"
-                                            Spacing="6">
-                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/precipitation.png"
-                                           Width="30"
-                                           Height="30"
-                                           VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="{Binding Pop}"
-                                               FontSize="16"
-                                               FontWeight="Medium"
-                                               Foreground="#CCCCCC"
-                                               VerticalAlignment="Center"/>
-                                </StackPanel>
-
-                                <!-- Comfortability -->
-                                <StackPanel Grid.Column="1"
-                                            Orientation="Horizontal"
-                                            HorizontalAlignment="Right"
-                                            Spacing="6"
-                                            Margin="0,0,15,0">
-                                    
-                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/leaf.png"
-                                           Width="25"
-                                           Height="25"
-                                           VerticalAlignment="Center"/>
-
-                                    <TextBlock Text="{Binding Comfort}"
-                                               FontSize="16"
-                                               FontWeight="Medium"
-                                               Foreground="#CCCCCC"
-                                               VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
-                        </Grid>
-                    </Border>
-
-                    <!-- Music -->
-                    <Border Grid.Row="1"
-                            CornerRadius="25"
-                            Background="#D93C3C"
-                                Margin="12"
-                        <StackPanel Margin="15" Spacing="8">
-
-                            <TextBlock Text="🎵 Player"
-                                       FontWeight="Bold"
-                                       FontSize="22"
-                                       Foreground="White"/>
-
-                            <TextBlock Text="{Binding CurrentSong}"
-                                       FontSize="16"
-                                       Foreground="#F0F0F0"/>
-
-                            <!-- Progress Bar -->
-                            <Slider Minimum="0"
-                                    Maximum="{Binding Duration}"
-                                    Value="{Binding Progress}"
-                                    ValueChanged="MusicSlider_OnValueChanged"/>
-
-                            <!-- Control Buttons -->
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Center"
-                                        Spacing="15"
-                                        Margin="0,10,0,0">
-
-                                <!-- Previous song -->
-                                <Button Width="40"
-                                        Height="40"
-                                        CornerRadius="25"
-                                        Background="#C23030"
-                                        Command="{Binding PreviousCommand}">
-                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
-                                           Width="22"/>
-                                </Button>
-
-                                <!-- Play / Pause shared button -->
-                                <Button Width="50"
-                                        Height="50"
-                                        CornerRadius="25"
-                                        Background="#FFFFFF20"
-                                        Command="{Binding PlayPauseCommand}">
-                                    <Image Width="26"
-                                           Source="{Binding PlayPauseIconPath}"/>
-                                </Button>
-
-                                <!-- Next song -->
-                                <Button Width="40"
-                                        Height="40"
-                                        CornerRadius="25"
-                                        Background="#C23030"
-                                        Command="{Binding NextCommand}">
-                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
-                                           Width="22"/>
-                                </Button>
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
+                        </Border>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Border>
+            </Border>
+        </Grid>
     </Viewbox>
 </UserControl>
