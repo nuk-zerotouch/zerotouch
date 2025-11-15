@@ -45,7 +45,10 @@ namespace ZeroTouch.UI.ViewModels
             _player.SetPlaylist(new[]
             {
                 @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Romantic_Inspiration.mp3",
-                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Lovely_Piano_Song.mp3"
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Lovely_Piano_Song.mp3",
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Pond.mp3",
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Shining_Stars.mp3",
+                @"E:\ZeroTouch\ZeroTouch\ZeroTouch.UI\Assets\Music\Nostalgic_Piano.mp3"
             });
 
             _player.PositionChanged += (pos, dur) =>
