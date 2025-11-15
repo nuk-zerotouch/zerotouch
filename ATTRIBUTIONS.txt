@@ -54,3 +54,18 @@ Leaf Icon
 Source: Flaticon (<a href="https://www.flaticon.com/free-icons/leaf" title="leaf icons">Leaf icons created by Good Ware - Flaticon</a>)
 AUTHOR: Good Ware
 LICENSE: Flaticon License
+
+Lovely_Piano_Song.mp3
+Source: FreePD (https://freepd.com/)
+AUTHOR: Rafael Krux
+LICENSE: Creative Commons 0 (CC0) - Public Domain
+
+Romantic_Inspiration.mp3
+Source: FreePD (https://freepd.com/)
+AUTHOR: Rafael Krux
+LICENSE: Creative Commons 0 (CC0) - Public Domain
+
+Pond.mp3
+Source: FreePD (https://freepd.com/)
+AUTHOR: Rafael Krux
+LICENSE: Creative Commons 0 (CC0) - Public Domain
