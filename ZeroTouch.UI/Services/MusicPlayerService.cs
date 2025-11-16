@@ -56,8 +56,9 @@ namespace ZeroTouch.UI.Services
         public void Play(string path)
         {
             _currentMedia?.Dispose();
-            var media = new Media(_libVLC, new Uri(path));
-            _mediaPlayer.Play(media);
+            _currentMedia = new Media(_libVLC, path, FromType.FromPath);
+            _mediaPlayer.Media = _currentMedia;
+            _mediaPlayer.Play();
         }
 
         public void Pause() => _mediaPlayer.Pause();
