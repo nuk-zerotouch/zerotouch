@@ -17,7 +17,7 @@ namespace ZeroTouch.UI.ViewModels
         private bool _blinkColon = true;
         [ObservableProperty] private string currentTime = string.Empty;
         [ObservableProperty] private bool is24HourFormat = true;
-        [ObservableProperty] private bool blinkColonEnabled = true;
+        [ObservableProperty] private bool isBlinkColonEnabled = true;
 
         private readonly WeatherService _weatherService = new();
         private bool _testTempBar = false;
@@ -35,6 +35,14 @@ namespace ZeroTouch.UI.ViewModels
         [ObservableProperty] private long _progress;
         [ObservableProperty] private long _duration;
         [ObservableProperty] private bool _isPlaying;
+
+        // Page state
+        [ObservableProperty] private bool _isDashboardOpen = true;
+        [ObservableProperty] private bool _isSettingsOpen = false;
+
+        // Settings options
+        [ObservableProperty] private bool _isDarkTheme = true;
+        [ObservableProperty] private bool _isClockBlinking = true;
 
         public IImage PlayPauseIconPath
         {
@@ -86,7 +94,7 @@ namespace ZeroTouch.UI.ViewModels
             string format = Is24HourFormat ? "HH:mm" : "hh:mm tt";
             var timeText = now.ToString(format);
 
-            if (BlinkColonEnabled)
+            if (isBlinkColonEnabled)
             {
                 if (!_blinkColon)
                 {
@@ -252,6 +260,32 @@ namespace ZeroTouch.UI.ViewModels
         private void Seek(long value)
         {
             _player.Seek(value);
+        }
+
+        [RelayCommand]
+        private void ShowHome()
+        {
+            IsDashboardOpen = true;
+            IsSettingsOpen = false;
+        }
+
+        [RelayCommand]
+        private void ShowSettings()
+        {
+            IsDashboardOpen = false;
+            IsSettingsOpen = true;
+        }
+
+        [RelayCommand]
+        private void ShowPhone()
+        {
+            // TODO: later implement phone view
+        }
+
+        [RelayCommand]
+        private void ShowMaps()
+        {
+            // TODO: later implement maps view
         }
     }
 }

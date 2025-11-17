@@ -146,11 +146,12 @@
     <Viewbox Stretch="Uniform" StretchDirection="Both">
         <Grid>
             
-            <!-- Main Dashboard -->
+            <!-- Main Dashboard (Dashboard View) -->
             <Border CornerRadius="30"
                     Background="#121212"
                     Padding="20"
-                    BoxShadow="0 0 25 #0008">
+                    BoxShadow="0 0 25 #0008"
+                    IsVisible="{Binding IsDashboardOpen}">
 
                 <Grid RowDefinitions="*,*"
                       ColumnDefinitions="Auto,2*,*">
@@ -208,29 +209,37 @@
                                             Spacing="30">
 
                                     <!-- Home -->
-                                    <Button Classes="dock-btn">
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowHomeCommand}">
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
                                                Width="40" Height="40"/>
                                     </Button>
 
                                     <!-- Phone -->
-                                    <Button Classes="dock-btn">
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowPhoneCommand}">
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
                                                Width="40" Height="40"/>
                                     </Button>
 
                                     <!-- Google Maps -->
-                                    <Button Classes="dock-btn">
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowMapsCommand}">
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
                                                Width="40" Height="40"/>
                                     </Button>
 
                                     <!-- Settings -->
-                                    <Button Classes="dock-btn">
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowSettingsCommand}">
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
                                                Width="40" Height="40"/>
                                     </Button>
-                                    
+
                                 </StackPanel>
                             </Border>
                         </Panel>
@@ -278,7 +287,7 @@
 
                             <Grid RowDefinitions="Auto,Auto"
                                   ColumnDefinitions="*,Auto">
-                                
+
                                 <StackPanel Grid.Row="0"
                                             Grid.Column="0"
                                             VerticalAlignment="Top"
@@ -339,7 +348,7 @@
                                                 Orientation="Horizontal"
                                                 HorizontalAlignment="Left"
                                                 Spacing="6">
-                                        
+
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/precipitation.png"
                                                Width="30"
                                                Height="30"
@@ -379,7 +388,7 @@
                                 CornerRadius="25"
                                 Background="#D93C3C"
                                 Margin="12">
-                            
+
                             <StackPanel Margin="15" Spacing="8">
 
                                 <TextBlock Text="🎵 Player"
@@ -434,7 +443,7 @@
                                                     <Transitions>
                                                         <DoubleTransition Property="Opacity" Duration="0:0:0.25" />
                                                     </Transitions>
-                                                
+                                                    
                                                 </Image.Transitions>
                                             </Image>
 
@@ -464,12 +473,158 @@
                                         
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
                                                Width="22"/>
-                                        
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
                         </Border>
                     </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Settings View -->
+            <Border CornerRadius="30"
+                    Background="#121212"
+                    Padding="20"
+                    BoxShadow="0 0 25 #0008"
+                    IsVisible="{Binding IsSettingsOpen}">
+
+                <Grid RowDefinitions="*,*"
+                      ColumnDefinitions="Auto,2*,*">
+
+                    <Grid Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="0"
+                          RowDefinitions="Auto,*"
+                          Margin="12"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Center">
+
+                        <Border Grid.Row="0"
+                                HorizontalAlignment="Stretch"
+                                Margin="0,0,0,12"
+                                Height="36"
+                                CornerRadius="18"
+                                Background="#2ECC71"
+                                BoxShadow="0 0 8 #0008">
+                            
+                            <TextBlock Text="{Binding CurrentTime}"
+                                       FontSize="18"
+                                       FontWeight="Bold"
+                                       FontFamily="Consolas"
+                                       Foreground="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Margin="0,7,0,0"/>
+                        </Border>
+
+                        <Panel Grid.Row="1"
+                               VerticalAlignment="Stretch"
+                               HorizontalAlignment="Center">
+
+                            <Border Background="#20FFFFFF"
+                                    CornerRadius="40"
+                                    Padding="15"
+                                    BoxShadow="0 0 20 #0006">
+                                
+                                <Border.Effect>
+                                    <BlurEffect Radius="4"/>
+                                </Border.Effect>
+                                
+                            </Border>
+
+                            <Border Background="Transparent"
+                                    CornerRadius="40"
+                                    Padding="15">
+                                
+                                <StackPanel Orientation="Vertical"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            Spacing="30">
+
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowHomeCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowPhoneCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowMapsCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+
+                                    <Button Classes="dock-btn"
+                                            Command="{Binding ShowSettingsCommand}">
+                                        <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
+                                               Width="40" Height="40"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                        </Panel>
+                    </Grid>
+
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="1"
+                            CornerRadius="25"
+                            Background="#1E1E1E"
+                            Margin="12"
+                            Padding="20">
+                        
+                        <StackPanel Spacing="16">
+                            
+                            <TextBlock Text="Settings"
+                                       FontSize="24"
+                                       FontWeight="Bold"
+                                       Foreground="White"
+                                       Margin="0,0,0,10"/>
+
+                            <ToggleSwitch Content="Dark theme"
+                                          IsChecked="{Binding IsDarkTheme}"
+                                          FontSize="16"
+                                          Margin="0,4,0,0"/>
+
+                            <ToggleSwitch Content="Blink clock colon"
+                                          IsChecked="{Binding IsClockBlinking}"
+                                          FontSize="16"
+                                          Margin="0,4,0,0"/>
+
+                            <ToggleSwitch Content="24-hour format"
+                                          IsChecked="{Binding Is24HourFormat}"
+                                          FontSize="16"
+                                          Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Row="0"
+                            Grid.RowSpan="2"
+                            Grid.Column="2"
+                            CornerRadius="25"
+                            Background="#202020"
+                            Margin="12"
+                            Padding="20">
+                        
+                        <StackPanel Spacing="10"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            
+                            <TextBlock Text="Preview"
+                                       FontSize="20"
+                                       FontWeight="Bold"
+                                       Foreground="White"/>
+                            
+                            <TextBlock Text="(Clock / Theme preview later)"
+                                       FontSize="14"
+                                       Foreground="#BBBBBB"
+                                       HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </Border>
         </Grid>
