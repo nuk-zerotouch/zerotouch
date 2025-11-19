@@ -22,6 +22,10 @@ All assets remain the property of their respective authors and are used accordin
   
   - [FreePD](#freepd-cc0)
 
+- [GIF Sources](#gif-sources)
+	
+	- - [amCharts Weather Icons](#amcharts-weather-icons)
+
 <br>
 
 # Icon Sources
@@ -62,6 +66,8 @@ All assets remain the property of their respective authors and are used accordin
 
 ## FreePD
 
+<br>
+
 | Asset | Source | Author | License |
 |------|--------|--------|---------|
 | **Lovely_Piano_Song.mp3** | FreePD (https://freepd.com/) | Rafael Krux | Creative Commons 0 (CC0) - Public Domain |
@@ -70,4 +76,29 @@ All assets remain the property of their respective authors and are used accordin
 | **Nostalgic_Piano.mp3** | FreePD (https://freepd.com/) | Rafael Krux | Creative Commons 0 (CC0) - Public Domain |
 | **Shining_Stars.mp3** | FreePD (https://freepd.com/) | Rafael Krux | Creative Commons 0 (CC0) - Public Domain |
 
+<br>
+
 ---
+
+<br>
+
+# GIF Sources
+
+## amCharts Weather Icons
+
+These icons were originally provided by **amCharts** as animated SVG weather icons.  
+All icons are licensed under Creative Commons Attribution 4.0 International Public License (CC BY 4.0), and have been modified (color adjustments and converted to GIF).
+
+<br>
+
+| Asset | Source | Author | License |
+|--------|--------|---------|---------|
+| **clear.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **cloudy.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **drizzle.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **isolated-showers.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **mostly-cloudy.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **rainy.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **sunny-isolated-showers.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **sunny-isolated-thunderstorms.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
+| **thunder.gif** | amCharts (https://www.amcharts.com/free-animated-svg-weather-icons/) | amCharts | Creative Commons Attribution 4.0 International (CC BY 4.0) |
