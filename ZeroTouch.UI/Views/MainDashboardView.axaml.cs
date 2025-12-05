@@ -208,6 +208,8 @@ namespace ZeroTouch.UI.Views
                 Interval = TimeSpan.FromMilliseconds(20)
             };
 
+            double currentSmoothRotation = _mapControl.Map.Navigator.Viewport.Rotation;
+
             _navigationTimer.Tick += (s, e) =>
             {
                 _currentStepIndex++;
@@ -215,11 +217,12 @@ namespace ZeroTouch.UI.Views
                 if (_currentStepIndex >= _interpolatedPath.Count)
                 {
                     _currentStepIndex = 1;  // Loop back to start
+                    currentSmoothRotation = 0;
                 }
 
                 var newLocation = _interpolatedPath[_currentStepIndex];
 
-                var prevIndex = _currentStepIndex - 1;
+                var prevIndex = Math.Max(0, _currentStepIndex - 1);
 
                 if (prevIndex < 0) prevIndex = 0;
 
@@ -233,9 +236,11 @@ namespace ZeroTouch.UI.Views
                     var angleRad = Math.Atan2(dy, dx);
                     var angleDeg = angleRad * 180.0 / Math.PI;
 
-                    var rotation = angleDeg - 90;
+                    var targetRotation = angleDeg - 90;
 
-                    _mapControl.Map.Navigator.RotateTo(rotation, duration: 0);
+                    currentSmoothRotation = LerpAngle(currentSmoothRotation, targetRotation, 0.1);
+
+                    _mapControl.Map.Navigator.RotateTo(currentSmoothRotation, duration: 0);
                 }
 
                 if (_routeLayer != null)
@@ -296,6 +301,16 @@ namespace ZeroTouch.UI.Views
             };
 
             _navigationTimer.Start();
+        }
+
+        private double LerpAngle(double current, double target, double t)
+        {
+            double diff = target - current;
+
+            while (diff > 180) diff -= 360;
+            while (diff < -180) diff += 360;
+
+            return current + diff * t;
         }
     }
 }
