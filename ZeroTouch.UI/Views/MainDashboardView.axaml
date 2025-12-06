@@ -18,19 +18,23 @@
 
     <UserControl.Styles>
         <Style Selector="Button.dock-btn">
+            
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="70"/>
             <Setter Property="CornerRadius" Value="35"/>
             <Setter Property="Background" Value="#10FFFFFF"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-
+            
             <Setter Property="Template">
+                
                 <ControlTemplate TargetType="Button">
+                    
                     <Grid>
+                        
                         <Border CornerRadius="35"
                                 Background="{TemplateBinding Background}">
-
+                            
                             <ContentPresenter
                                 Content="{TemplateBinding Content}"
                                 ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -56,13 +60,13 @@
             <Style Selector="^:pointerover /template/ Border#OuterRing">
                 <Setter Property="BorderBrush" Value="White"/>
             </Style>
-
+            
         </Style>
 
         <Style Selector="Button.music-btn:pointerover">
             <Setter Property="Background" Value="#A0000000"/>
         </Style>
-
+        
         <Style Selector="Button.music-btn:pointerover /template/ Border#OuterRing">
             <Setter Property="BorderBrush" Value="#FFFFFFFF"/>
             <Setter Property="BorderThickness" Value="2.5"/>
@@ -71,36 +75,36 @@
         <!-- Music buttons bounce -->
         <Style Selector="Button.music-btn">
             <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
-
+            
             <Setter Property="RenderTransform">
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter>
         </Style>
-
+        
         <Style Selector="Button.music-btn:not(:pressed)">
             <Style.Animations>
                 <Animation Duration="0:0:0.45" Easing="SineEaseInOut">
-
+                    
                     <KeyFrame Cue="0%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="40%">
                         <Setter Property="ScaleTransform.ScaleX" Value="0.75"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="0.75"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="70%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1.05"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1.05"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1"/>
                     </KeyFrame>
-
+                
                 </Animation>
             </Style.Animations>
         </Style>
@@ -108,40 +112,40 @@
         <!-- Dock buttons bounce -->
         <Style Selector="Button.dock-btn">
             <Setter Property="RenderTransformOrigin" Value="50%,50%"/>
-
+            
             <Setter Property="RenderTransform">
                 <ScaleTransform ScaleX="1" ScaleY="1"/>
             </Setter>
         </Style>
-
+        
         <Style Selector="Button.dock-btn:not(.music-btn):not(:pressed)">
             <Style.Animations>
                 <Animation Duration="0:0:0.45" Easing="SineEaseInOut">
-
+                    
                     <KeyFrame Cue="0%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="40%">
                         <Setter Property="ScaleTransform.ScaleX" Value="0.75"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="0.75"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="70%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1.05"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1.05"/>
                     </KeyFrame>
-
+                    
                     <KeyFrame Cue="100%">
                         <Setter Property="ScaleTransform.ScaleX" Value="1"/>
                         <Setter Property="ScaleTransform.ScaleY" Value="1"/>
                     </KeyFrame>
-
+                
                 </Animation>
             </Style.Animations>
         </Style>
-
+        
     </UserControl.Styles>
 
     <Viewbox Stretch="Uniform" StretchDirection="Both">
@@ -153,12 +157,9 @@
                     Padding="20"
                     BoxShadow="0 0 25 #0008">
 
-                <Grid RowDefinitions="*,*"
-                      ColumnDefinitions="Auto,2*,*">
+                <Grid ColumnDefinitions="Auto,*">
 
-                    <Grid Grid.Row="0"
-                          Grid.RowSpan="2"
-                          Grid.Column="0"
+                    <Grid Grid.Column="0"
                           RowDefinitions="Auto,*"
                           Margin="12"
                           VerticalAlignment="Stretch"
@@ -172,7 +173,7 @@
                                 CornerRadius="18"
                                 Background="#2ECC71"
                                 BoxShadow="0 0 8 #0008">
-
+                            
                             <TextBlock Text="{Binding CurrentTime}"
                                        FontSize="18"
                                        FontWeight="Bold"
@@ -187,22 +188,22 @@
                         <Panel Grid.Row="1"
                                VerticalAlignment="Stretch"
                                HorizontalAlignment="Center">
-
+                            
                             <Border Background="#20FFFFFF"
                                     CornerRadius="40"
                                     Padding="15"
                                     BoxShadow="0 0 20 #0006">
-
+                                
                                 <Border.Effect>
                                     <BlurEffect Radius="4"/>
                                 </Border.Effect>
-
+                                
                             </Border>
-
+                            
                             <Border Background="Transparent"
                                     CornerRadius="40"
                                     Padding="15">
-
+                                
                                 <StackPanel Orientation="Vertical"
                                             HorizontalAlignment="Center"
                                             VerticalAlignment="Center"
@@ -211,410 +212,548 @@
                                     <!-- Home -->
                                     <Button Classes="dock-btn"
                                             Command="{Binding ShowHomeCommand}">
-
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
                                                Width="40" Height="40"/>
                                     </Button>
-
+                                    
                                     <!-- Phone -->
                                     <Button Classes="dock-btn"
                                             Command="{Binding ShowPhoneCommand}">
-
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
                                                Width="40" Height="40"/>
                                     </Button>
-
+                                    
                                     <!-- Maps -->
                                     <Button Classes="dock-btn"
                                             Command="{Binding ShowMapsCommand}">
-
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
                                                Width="40" Height="40"/>
                                     </Button>
-
+                                    
                                     <!-- Settings -->
                                     <Button Classes="dock-btn"
                                             Command="{Binding ShowSettingsCommand}">
-
+                                        
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
                                                Width="40" Height="40"/>
                                     </Button>
-
+                                    
                                 </StackPanel>
                             </Border>
                         </Panel>
                     </Grid>
 
                     <!-- Map Panel -->
-                    <Panel Grid.Row="0"
-                           Grid.RowSpan="2"
-                           Grid.Column="1">
+                    <Carousel Grid.Column="1"
+                              SelectedIndex="{Binding IsSettingsOpen, Converter={StaticResource TrueToOne}}">
 
-                        <Grid RowDefinitions="*,*" IsVisible="{Binding IsDashboardOpen}">
-                            <Border Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    CornerRadius="25"
-                                    Background="#1E1E1E"
-                                    ClipToBounds="True"
-                                    Margin="12">
-                                <mapsui:MapControl Name="MapControl"
-                                                   HorizontalAlignment="Stretch"
-                                                   VerticalAlignment="Stretch" />
-                            </Border>
+                        <Carousel.PageTransition>
+                            <CompositePageTransition> 
+                                <PageSlide Duration="0.5"
+                                           Orientation="Vertical"
+                                           SlideInEasing="CubicEaseOut"
+                                           SlideOutEasing="CubicEaseOut"/>
+                                <CrossFade Duration="0.5" /> 
+                            </CompositePageTransition> 
+                        </Carousel.PageTransition>
 
-                            <Border Grid.Row="1"
-                                    VerticalAlignment="Bottom"
-                                    HorizontalAlignment="Center"
-                                    Height="80"
-                                    Width="350"
-                                    CornerRadius="20"
-                                    Background="#CC000000"
-                                    Margin="0,0,0,30"
-                                    BoxShadow="0 4 10 #0005">
-
-                                <Grid ColumnDefinitions="Auto,*" Margin="15">
-                                    <Border Grid.Column="0"
-                                            Width="50"
-                                            Height="50"
-                                            CornerRadius="25"
-                                            Background="#2ECC71"
-                                            Margin="0,0,15,0">
-
-                                        <TextBlock Text="↱"
-                                                   FontSize="30"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,-5,0,0"/>
-                                    </Border>
-
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="Turn Right" FontWeight="Bold" Foreground="White" FontSize="18"/>
-                                        <TextBlock Text="in 300 meters" Foreground="#CCCCCC" FontSize="14"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                        </Grid>
-
-                        <Border CornerRadius="25"
-                                Background="#1E1E1E"
-                                BorderBrush="#333333"
-                                BorderThickness="1"
-                                Margin="12"
-                                Padding="30"
-                                IsVisible="{Binding IsSettingsOpen}">
-
-                            <StackPanel Spacing="20">
-
-                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,0,0,10">
-                                    <TextBlock Text="⚙️" FontSize="24" VerticalAlignment="Center"/>
-                                    <TextBlock Text="System Settings"
-                                               FontSize="28"
-                                               FontWeight="Bold"
-                                               Foreground="White"
-                                               VerticalAlignment="Center"/>
-                                </StackPanel>
-
-                                <Separator Background="#333333" Height="1" Margin="0,0,0,10"/>
-
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                        <TextBlock Text="Dark Theme" FontSize="18" FontWeight="Medium" Foreground="White"/>
-                                        <TextBlock Text="Use darker colors for night driving" FontSize="12" Foreground="#888888"/>
-                                    </StackPanel>
-                                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsDarkTheme}" OnContent="" OffContent=""/>
-                                </Grid>
-
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                        <TextBlock Text="Blinking Colon" FontSize="18" FontWeight="Medium" Foreground="White"/>
-                                        <TextBlock Text="Animate the separator in digital clock" FontSize="12" Foreground="#888888"/>
-                                    </StackPanel>
-                                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding IsClockBlinking}" OnContent="" OffContent=""/>
-                                </Grid>
-
-                                <Grid ColumnDefinitions="*, Auto">
-                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                        <TextBlock Text="24-Hour Format" FontSize="18" FontWeight="Medium" Foreground="White"/>
-                                        <TextBlock Text="Switch between 12h and 24h display" FontSize="12" Foreground="#888888"/>
-                                    </StackPanel>
-                                    <ToggleSwitch Grid.Column="1" IsChecked="{Binding Is24HourFormat}" OnContent="" OffContent=""/>
-                                </Grid>
-
-                            </StackPanel>
-                        </Border>
-
-                    </Panel>
-
-                    <!-- Right Panels -->
-                    <Panel Grid.Row="0"
-                           Grid.RowSpan="2"
-                           Grid.Column="2">
-
-                        <Grid RowDefinitions="*,*" IsVisible="{Binding IsDashboardOpen}">
-
-                            <!-- Weather -->
-                            <Border CornerRadius="25"
-                                    Background="#202020"
-                                    Margin="12"
-                                    Padding="18">
-
-                                <Grid RowDefinitions="Auto,Auto"
-                                      ColumnDefinitions="*,Auto">
-
-                                    <StackPanel Grid.Row="0"
-                                                Grid.Column="0"
-                                                VerticalAlignment="Top"
-                                                Spacing="8">
-
-                                        <!-- Location -->
-                                        <TextBlock Text="{Binding Location}"
-                                                   FontWeight="Bold"
-                                                   FontSize="22"
-                                                   Foreground="#FFFFFF"/>
-
-                                        <!-- Weather Condition -->
-                                        <TextBlock Text="{Binding WeatherCondition}"
-                                                   FontSize="18"
-                                                   Foreground="#DDDDDD"
-                                                   Margin="0,30,0,0"/>
-
-                                        <!-- Temperature colored bar -->
-                                        <StackPanel Orientation="Horizontal"
-                                                    Spacing="6"
-                                                    Margin="0,12,0,8"
-                                                    VerticalAlignment="Center">
-
-                                            <TextBlock Text="{Binding MinTemperature}"
-                                                       FontSize="14"
-                                                       Foreground="#AAAAAA"
-                                                       VerticalAlignment="Center"/>
-
-                                            <Border Width="120"
-                                                    Height="6"
-                                                    CornerRadius="3"
-                                                    Background="{Binding TemperatureBarBrush}" />
-
-                                            <TextBlock Text="{Binding MaxTemperature}"
-                                                       FontSize="14"
-                                                       Foreground="#AAAAAA"
-                                                       VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <!-- GIF -->
-                                    <gif:GifImage Grid.Row="0"
-                                                  Grid.Column="1"
-                                                  HorizontalAlignment="Right"
-                                                  VerticalAlignment="Top"
-                                                  Source="{Binding WeatherIconPath}"
-                                                  Width="90"
-                                                  Height="90"/>
-
-                                    <!-- Info Bar -->
-                                    <Grid Grid.Row="1"
-                                          Grid.ColumnSpan="2"
-                                          Margin="0,45,0,0"
-                                          ColumnDefinitions="*,*">
-
-                                        <!-- Precipitation -->
-                                        <StackPanel Grid.Column="0"
-                                                    Orientation="Horizontal"
-                                                    HorizontalAlignment="Left"
-                                                    Spacing="6">
-
-                                            <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/precipitation.png"
-                                                   Width="30"
-                                                   Height="30"
-                                                   VerticalAlignment="Center"/>
-
-                                            <TextBlock Text="{Binding Pop}"
-                                                       FontSize="16"
-                                                       FontWeight="Medium"
-                                                       Foreground="#CCCCCC"
-                                                       VerticalAlignment="Center"/>
-                                        </StackPanel>
-
-                                        <!-- Comfortability -->
-                                        <StackPanel Grid.Column="1"
-                                                    Orientation="Horizontal"
-                                                    HorizontalAlignment="Right"
-                                                    Spacing="6"
-                                                    Margin="0,0,15,0">
-
-                                            <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/leaf.png"
-                                                   Width="25"
-                                                   Height="25"
-                                                   VerticalAlignment="Center"/>
-
-                                            <TextBlock Text="{Binding Comfort}"
-                                                       FontSize="16"
-                                                       FontWeight="Medium"
-                                                       Foreground="#CCCCCC"
-                                                       VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </Grid>
-                                </Grid>
-                            </Border>
-
-                            <!-- Music Player -->
-                            <Border Grid.Row="1"
-                                    CornerRadius="25"
-                                    Background="#D93C3C"
-                                    Margin="12">
-
-                                <StackPanel Margin="15" Spacing="8">
-
-                                    <TextBlock Text="🎵 Player"
-                                               FontWeight="Bold"
-                                               FontSize="22"
-                                               Foreground="White"/>
-
-                                    <TextBlock Text="{Binding CurrentSong}"
-                                               FontSize="16"
-                                               Foreground="#F0F0F0"/>
-
-                                    <!-- Progress Bar -->
-                                    <Slider Minimum="0"
-                                            Maximum="{Binding Duration}"
-                                            Value="{Binding Progress}"
-                                            ValueChanged="MusicSlider_OnValueChanged"/>
-
-                                    <!-- Control Buttons -->
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Center"
-                                                Spacing="15"
-                                                Margin="0,10,0,0">
-
-                                        <!-- Previous song -->
-                                        <Button Classes="dock-btn music-btn"
-                                                Width="40"
-                                                Height="40"
-                                                CornerRadius="25"
-                                                Background="#C23030"
-                                                Command="{Binding PreviousCommand}">
-
-                                            <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
-                                                   Width="22"/>
-                                        </Button>
-
-                                        <!-- Play / Pause shared button -->
-                                        <Button Classes="dock-btn music-btn"
+                        <Grid ColumnDefinitions="2*,*"
+                              Margin="12,0,0,0">
+                            
+                            <Grid Grid.Column="0" RowDefinitions="*,Auto">
+                                
+                                <Border Grid.Row="0"
+                                        Grid.RowSpan="2"
+                                        CornerRadius="25"
+                                        Background="#1E1E1E"
+                                        ClipToBounds="True"
+                                        Margin="12">
+                                    
+                                    <mapsui:MapControl Name="MapControl" 
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Stretch" />
+                                </Border>
+                                
+                                <Border Grid.Row="1"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Center"
+                                        Height="80"
+                                        Width="350"
+                                        CornerRadius="20"
+                                        Background="#CC000000"
+                                        Margin="0,0,0,30"
+                                        BoxShadow="0 4 10 #0005">
+                                    
+                                    <Grid ColumnDefinitions="Auto,*" Margin="15">
+                                        
+                                        <Border Grid.Column="0"
                                                 Width="50"
                                                 Height="50"
-                                                Background="#C23030"
                                                 CornerRadius="25"
-                                                Command="{Binding PlayPauseCommand}">
+                                                Background="#2ECC71"
+                                                Margin="0,0,15,0">
+                                            
+                                            <TextBlock Text="↱"
+                                                       FontSize="30"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0,-5,0,0"/>
+                                        </Border>
+                                        
+                                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                            
+                                            <!-- Navigation info -->
+                                            <TextBlock Text="Turn Right"
+                                                       FontWeight="Bold"
+                                                       Foreground="White"
+                                                       FontSize="18"/>
+                                            
+                                            <TextBlock Text="in 300 meters"
+                                                       Foreground="#CCCCCC"
+                                                       FontSize="14"/>
+                                        
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                            </Grid>
 
-                                            <Grid>
-                                                <!-- Play -->
-                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
-                                                       Width="26"
-                                                       Opacity="{Binding IsPlaying, Converter={StaticResource FalseToOne}}">
+                            <Grid Grid.Column="1" RowDefinitions="*,*">
+                                
+                                <Border Grid.Row="0"
+                                        CornerRadius="25"
+                                        Background="#202020"
+                                        Margin="12" Padding="18">
+                                    
+                                    <Grid RowDefinitions="Auto,Auto"
+                                          ColumnDefinitions="*,Auto">
+                                        
+                                        <StackPanel Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    VerticalAlignment="Top"
+                                                    Spacing="8">
 
-                                                    <Image.Transitions>
+                                            <!-- Location -->
+                                            <TextBlock Text="{Binding Location}"
+                                                       FontWeight="Bold"
+                                                       FontSize="22"
+                                                       Foreground="#FFFFFF"/>
 
-                                                        <Transitions>
-                                                            <DoubleTransition Property="Opacity" Duration="0:0:0.25" />
-                                                        </Transitions>
+                                            <!-- Weather Condition -->
+                                            <TextBlock Text="{Binding WeatherCondition}"
+                                                       FontSize="18"
+                                                       Foreground="#DDDDDD"
+                                                       Margin="0,30,0,0"/>
 
-                                                    </Image.Transitions>
-                                                </Image>
-
-                                                <!-- Pause -->
-                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/pause-button.png"
-                                                       Width="26"
-                                                       Opacity="{Binding IsPlaying, Converter={StaticResource TrueToOne}}">
-
-                                                    <Image.Transitions>
-
-                                                        <Transitions>
-                                                            <DoubleTransition Property="Opacity" Duration="0:0:0.25" />
-                                                        </Transitions>
-
-                                                    </Image.Transitions>
-                                                </Image>
-                                            </Grid>
-                                        </Button>
-
-                                        <!-- Next song -->
-                                        <Button Classes="dock-btn music-btn"
-                                                Width="40"
-                                                Height="40"
-                                                CornerRadius="25"
-                                                Background="#C23030"
-                                                Command="{Binding NextCommand}">
-
-                                            <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
-                                                   Width="22"/>
-                                        </Button>
-                                    </StackPanel>
-                                </StackPanel>
-                            </Border>
-                        </Grid>
-
-                        <!-- Settings View -->
-                        <Border CornerRadius="25"
-                                Background="#252525"
-                                BorderBrush="#333333"
-                                BorderThickness="1"
-                                Margin="12"
-                                Padding="20"
-                                IsVisible="{Binding IsSettingsOpen}">
-
-                            <Grid RowDefinitions="Auto, *, Auto">
-
-                                <TextBlock Grid.Row="0" Text="Vehicle Status" FontSize="20" FontWeight="Bold" Foreground="#FFA500" Margin="0,0,0,15"/>
-
-                                <StackPanel Grid.Row="1" Spacing="20">
-
-                                    <StackPanel Spacing="5">
-                                        <Grid>
-                                            <TextBlock Text="Battery Level" Foreground="#DDDDDD" FontSize="14"/>
-                                            <TextBlock Text="82%" Foreground="#2ECC71" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
-                                        </Grid>
-
-                                        <ProgressBar Value="82" Maximum="100" Height="6" CornerRadius="3" Foreground="#2ECC71" Background="#444444"/>
-
-                                    </StackPanel>
-
-                                    <StackPanel Spacing="5">
-                                        <Grid>
-                                            <TextBlock Text="System Temp" Foreground="#DDDDDD" FontSize="14"/>
-                                            <TextBlock Text="45°C" Foreground="#E74C3C" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
-                                        </Grid>
-
-                                        <ProgressBar Value="45" Maximum="100" Height="6" CornerRadius="3" Foreground="#E74C3C" Background="#444444"/>
-                                    </StackPanel>
-
-                                    <StackPanel Spacing="5">
-                                        <Grid>
-                                            <TextBlock Text="Storage Usage" Foreground="#DDDDDD" FontSize="14"/>
-                                            <TextBlock Text="12GB / 64GB" Foreground="#3498DB" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right"/>
-                                        </Grid>
-
-                                        <ProgressBar Value="18" Maximum="100" Height="6" CornerRadius="3" Foreground="#3498DB" Background="#444444"/>
-                                    </StackPanel>
-                                </StackPanel>
-
-                                <Border Grid.Row="2" Background="#303030" CornerRadius="15" Padding="15" Margin="0,20,0,0">
-                                    <StackPanel Spacing="10">
-                                        <TextBlock Text="Connectivity" FontWeight="Bold" Foreground="White"/>
-
-                                        <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <Border Width="10" Height="10" CornerRadius="5" Background="#2ECC71"/>
-                                            <TextBlock Text="Bluetooth: Connected" Foreground="#AAAAAA" FontSize="12"/>
+                                            <!-- Temperature colored bar -->
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="6"
+                                                        Margin="0,12,0,8"
+                                                        VerticalAlignment="Center">
+                                                
+                                                <TextBlock Text="{Binding MinTemperature}"
+                                                           FontSize="14"
+                                                           Foreground="#AAAAAA"
+                                                           VerticalAlignment="Center"/>
+                                                
+                                                <Border Width="120"
+                                                        Height="6"
+                                                        CornerRadius="3"
+                                                        Background="{Binding TemperatureBarBrush}" />
+                                                
+                                                <TextBlock Text="{Binding MaxTemperature}"
+                                                           FontSize="14"
+                                                           Foreground="#AAAAAA"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
                                         </StackPanel>
 
-                                        <StackPanel Orientation="Horizontal" Spacing="10">
-                                            <Border Width="10" Height="10" CornerRadius="5" Background="#2ECC71"/>
-                                            <TextBlock Text="GPS: Signal Strong" Foreground="#AAAAAA" FontSize="12"/>
+                                        <!-- GIF -->
+                                        <gif:GifImage Grid.Row="0"
+                                                      Grid.Column="1"
+                                                      HorizontalAlignment="Right"
+                                                      VerticalAlignment="Top"
+                                                      Source="{Binding WeatherIconPath}"
+                                                      Width="90"
+                                                      Height="90"/>
+
+                                        <!-- Info Bar -->
+                                        <Grid Grid.Row="1"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,45,0,0"
+                                              ColumnDefinitions="*,*">
+
+                                            <!-- Precipitation -->
+                                            <StackPanel Grid.Column="0"
+                                                        Orientation="Horizontal"
+                                                        HorizontalAlignment="Left"
+                                                        Spacing="6">
+                                                
+                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/precipitation.png"
+                                                       Width="30"
+                                                       Height="30"
+                                                       VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="{Binding Pop}"
+                                                           FontSize="16"
+                                                           FontWeight="Medium"
+                                                           Foreground="#CCCCCC"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
+
+                                            <!-- Comfortability -->
+                                            <StackPanel Grid.Column="1"
+                                                        Orientation="Horizontal"
+                                                        HorizontalAlignment="Right"
+                                                        Spacing="6"
+                                                        Margin="0,0,15,0">
+                                                
+                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/leaf.png"
+                                                       Width="25"
+                                                       Height="25"
+                                                       VerticalAlignment="Center"/>
+                                                
+                                                <TextBlock Text="{Binding Comfort}"
+                                                           FontSize="16"
+                                                           FontWeight="Medium"
+                                                           Foreground="#CCCCCC"
+                                                           VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Border>
+
+                                <!-- Music Player -->
+                                <Border Grid.Row="1"
+                                        CornerRadius="25"
+                                        Background="#D93C3C"
+                                        Margin="12">
+                                    
+                                    <StackPanel Margin="15" Spacing="8">
+                                        
+                                        <TextBlock Text="🎵 Player"
+                                                   FontWeight="Bold"
+                                                   FontSize="22"
+                                                   Foreground="White"/>
+                                        
+                                        <TextBlock Text="{Binding CurrentSong}"
+                                                   FontSize="16"
+                                                   Foreground="#F0F0F0"/>
+
+                                        <!-- Progress Bar -->
+                                        <Slider Minimum="0"
+                                                Maximum="{Binding Duration}"
+                                                Value="{Binding Progress}"
+                                                ValueChanged="MusicSlider_OnValueChanged"/>
+
+                                        <!-- Control Buttons -->
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Center"
+                                                    Spacing="15"
+                                                    Margin="0,10,0,0">
+
+                                            <!-- Previous song -->
+                                            <Button Classes="dock-btn music-btn"
+                                                    Width="40"
+                                                    Height="40"
+                                                    CornerRadius="25"
+                                                    Background="#C23030"
+                                                    Command="{Binding PreviousCommand}">
+                                                
+                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
+                                                       Width="22"/>
+                                            </Button>
+
+                                            <!-- Play / Pause shared button -->
+                                            <Button Classes="dock-btn music-btn"
+                                                    Width="50"
+                                                    Height="50"
+                                                    Background="#C23030"
+                                                    CornerRadius="25"
+                                                    Command="{Binding PlayPauseCommand}">
+                                                
+                                                <Grid>
+                                                    
+                                                    <!-- Play -->
+                                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
+                                                           Width="26"
+                                                           Opacity="{Binding IsPlaying, Converter={StaticResource FalseToOne}}">
+                                                        
+                                                        <Image.Transitions>
+                                                            
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity"
+                                                                                  Duration="0:0:0.25" />
+                                                            </Transitions>
+                                                        
+                                                        </Image.Transitions>  
+                                                    </Image>
+
+                                                    <!-- Pause -->
+                                                    <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/pause-button.png"
+                                                           Width="26"
+                                                           Opacity="{Binding IsPlaying, Converter={StaticResource TrueToOne}}">
+                                                        
+                                                        <Image.Transitions>
+                                                            
+                                                            <Transitions>
+                                                                <DoubleTransition Property="Opacity"
+                                                                                  Duration="0:0:0.25" />
+                                                            </Transitions>
+                                                            
+                                                        </Image.Transitions>  
+                                                    </Image>
+                                                </Grid>
+                                            </Button>
+                                            
+                                            <!-- Next song -->
+                                            <Button Classes="dock-btn music-btn"
+                                                    Width="40"
+                                                    Height="40"
+                                                    CornerRadius="25"
+                                                    Background="#C23030"
+                                                    Command="{Binding NextCommand}">
+                                                
+                                                <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
+                                                       Width="22"/>
+                                            </Button>
                                         </StackPanel>
                                     </StackPanel>
                                 </Border>
                             </Grid>
-                        </Border>
-                    </Panel>
+                        </Grid>
+
+                        <!-- Settings View -->
+                        <Grid ColumnDefinitions="2*,*"
+                              Margin="12,0,0,0">
+                            
+                            <Border Grid.Column="0"
+                                    CornerRadius="25"
+                                    Background="#1E1E1E"
+                                    BorderBrush="#333333"
+                                    BorderThickness="1"
+                                    Margin="12"
+                                    Padding="30">
+                                
+                                <StackPanel Spacing="20">
+                                    
+                                    <StackPanel Orientation="Horizontal"
+                                                Spacing="10"
+                                                Margin="0,0,0,10">
+                                        
+                                        <TextBlock Text="⚙️"
+                                                   FontSize="24"
+                                                   VerticalAlignment="Center"/>
+                                        
+                                        <TextBlock Text="System Settings"
+                                                   FontSize="28"
+                                                   FontWeight="Bold"
+                                                   Foreground="White"
+                                                   VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    
+                                    <Separator Background="#333333"
+                                               Height="1"
+                                               Margin="0,0,0,10"/>
+                                    
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        
+                                        <StackPanel Grid.Column="0"
+                                                    VerticalAlignment="Center">
+                                            
+                                            <TextBlock Text="Dark Theme"
+                                                       FontSize="18"
+                                                       FontWeight="Medium"
+                                                       Foreground="White"/>
+                                            
+                                            <TextBlock Text="Use darker colors for night driving"
+                                                       FontSize="12"
+                                                       Foreground="#888888"/>
+                                        </StackPanel>
+                                        
+                                        <ToggleSwitch Grid.Column="1"
+                                                      IsChecked="{Binding IsDarkTheme}"
+                                                      OnContent=""
+                                                      OffContent=""/>
+                                    </Grid>
+                                    
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        
+                                        <StackPanel Grid.Column="0"
+                                                    VerticalAlignment="Center">
+                                            
+                                            <TextBlock Text="Blinking Colon"
+                                                       FontSize="18"
+                                                       FontWeight="Medium"
+                                                       Foreground="White"/>
+                                            
+                                            <TextBlock Text="Animate the separator in digital clock"
+                                                       FontSize="12"
+                                                       Foreground="#888888"/>
+                                        </StackPanel>
+                                        
+                                        <ToggleSwitch Grid.Column="1"
+                                                      IsChecked="{Binding IsClockBlinking}"
+                                                      OnContent=""
+                                                      OffContent=""/>
+                                    </Grid>
+                                    
+                                    <Grid ColumnDefinitions="*, Auto">
+                                        
+                                        <StackPanel Grid.Column="0"
+                                                    VerticalAlignment="Center">
+                                            
+                                            <TextBlock Text="24-Hour Format"
+                                                       FontSize="18"
+                                                       FontWeight="Medium"
+                                                       Foreground="White"/>
+                                            
+                                            <TextBlock Text="Switch between 12h and 24h display"
+                                                       FontSize="12"
+                                                       Foreground="#888888"/>
+                                        </StackPanel>
+                                        
+                                        <ToggleSwitch Grid.Column="1"
+                                                      IsChecked="{Binding Is24HourFormat}"
+                                                      OnContent=""
+                                                      OffContent=""/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1"
+                                    CornerRadius="25"
+                                    Background="#252525"
+                                    BorderBrush="#333333"
+                                    BorderThickness="1"
+                                    Margin="12"
+                                    Padding="20">
+                                
+                                <Grid RowDefinitions="Auto, *, Auto">
+                                    
+                                    <TextBlock Grid.Row="0"
+                                               Text="Vehicle Status"
+                                               FontSize="20"
+                                               FontWeight="Bold"
+                                               Foreground="#FFA500"
+                                               Margin="0,0,0,15"/>
+                                    
+                                    <StackPanel Grid.Row="1"
+                                                Spacing="20">
+                                        
+                                        <StackPanel Spacing="5">
+                                            
+                                            <Grid>
+                                                <TextBlock Text="Battery Level"
+                                                           Foreground="#DDDDDD"
+                                                           FontSize="14"/>
+                                                
+                                                <TextBlock Text="82%"
+                                                           Foreground="#2ECC71"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           HorizontalAlignment="Right"/>
+                                            </Grid>
+                                            
+                                            <ProgressBar Value="82"
+                                                         Maximum="100"
+                                                         Height="6"
+                                                         CornerRadius="3"
+                                                         Foreground="#2ECC71"
+                                                         Background="#444444"/>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Spacing="5">
+                                            
+                                            <Grid>
+                                                <TextBlock Text="System Temp"
+                                                           Foreground="#DDDDDD"
+                                                           FontSize="14"/>
+                                                
+                                                <TextBlock Text="45°C"
+                                                           Foreground="#E74C3C"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           HorizontalAlignment="Right"/>
+                                            </Grid>
+                                            
+                                            <ProgressBar Value="45"
+                                                         Maximum="100"
+                                                         Height="6"
+                                                         CornerRadius="3"
+                                                         Foreground="#E74C3C"
+                                                         Background="#444444"/>
+                                        </StackPanel>
+                                        
+                                        <StackPanel Spacing="5">
+                                            
+                                            <Grid>
+                                                <TextBlock Text="Storage Usage"
+                                                           Foreground="#DDDDDD"
+                                                           FontSize="14"/>
+                                                
+                                                <TextBlock Text="12GB / 64GB"
+                                                           Foreground="#3498DB"
+                                                           FontSize="14"
+                                                           FontWeight="Bold"
+                                                           HorizontalAlignment="Right"/>
+                                            </Grid>
+                                            
+                                            <ProgressBar Value="18"
+                                                         Maximum="100"
+                                                         Height="6"
+                                                         CornerRadius="3"
+                                                         Foreground="#3498DB"
+                                                         Background="#444444"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                    
+                                    <Border Grid.Row="2"
+                                            Background="#303030"
+                                            CornerRadius="15"
+                                            Padding="15"
+                                            Margin="0,20,0,0">
+                                        
+                                        <StackPanel Spacing="10">
+                                            
+                                            <TextBlock Text="Connectivity"
+                                                       FontWeight="Bold"
+                                                       Foreground="White"/>
+                                            
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="10">
+                                                
+                                                <Border Width="10"
+                                                        Height="10"
+                                                        CornerRadius="5"
+                                                        Background="#2ECC71"/>
+                                                
+                                                <TextBlock Text="Bluetooth: Connected"
+                                                           Foreground="#AAAAAA"
+                                                           FontSize="12"/>
+                                            </StackPanel>
+                                            
+                                            <StackPanel Orientation="Horizontal"
+                                                        Spacing="10">
+                                                
+                                                <Border Width="10"
+                                                        Height="10"
+                                                        CornerRadius="5"
+                                                        Background="#2ECC71"/>
+                                                
+                                                <TextBlock Text="GPS: Signal Strong"
+                                                           Foreground="#AAAAAA"
+                                                           FontSize="12"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Carousel>
                 </Grid>
             </Border>
         </Grid>
