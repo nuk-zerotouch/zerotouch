@@ -55,6 +55,7 @@ All assets remain the property of their respective authors and are used accordin
 | **Settings Icon** | <a href="https://www.flaticon.com/free-icons/settings" title="settings icons">Settings icons created by Freepik - Flaticon</a> | Freepik | Flaticon License |
 | **Precipitation Icon** | <a href="https://www.flaticon.com/free-icons/precipitation" title="precipitation icons">Precipitation icons created by Laura Reen - Flaticon</a> | Laura Reen | Flaticon License |
 | **Leaf Icon** | <a href="https://www.flaticon.com/free-icons/leaf" title="leaf icons">Leaf icons created by Good Ware - Flaticon</a> | Good Ware | Flaticon License |
+| **Backspace Icon** | <a href="https://www.flaticon.com/free-icons/backspace" title="backspace icons">Backspace icons created by Anggara - Flaticon</a> | Anggara | Flaticon License |
 
 <br>
 
