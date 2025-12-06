@@ -15,9 +15,9 @@ namespace ZeroTouch.UI.ViewModels
     {
         private readonly Timer _timer;
         private bool _blinkColon = true;
+
         [ObservableProperty] private string currentTime = string.Empty;
         [ObservableProperty] private bool is24HourFormat = true;
-        [ObservableProperty] private bool isBlinkColonEnabled = true;
 
         private readonly WeatherService _weatherService = new();
         private bool _testTempBar = true;
@@ -99,7 +99,7 @@ namespace ZeroTouch.UI.ViewModels
             string format = Is24HourFormat ? "HH:mm" : "hh:mm tt";
             var timeText = now.ToString(format);
 
-            if (IsBlinkColonEnabled)
+            if (IsClockBlinking)
             {
                 if (!_blinkColon)
                 {
