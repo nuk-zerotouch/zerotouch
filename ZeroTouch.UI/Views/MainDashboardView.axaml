@@ -699,6 +699,7 @@
                                                            FontWeight="Bold"
                                                            HorizontalAlignment="Right"/>
                                             </Grid>
+                                            
                                             <ProgressBar Value="18"
                                                          Maximum="100"
                                                          Height="6"
@@ -722,7 +723,7 @@
                                                            FontWeight="Bold"
                                                            Foreground="White"/>
 
-                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="15,10,0,0">
                                                     
                                                     <Border Width="8"
                                                             Height="8"
@@ -735,7 +736,7 @@
                                                                FontSize="12"/>
                                                 </StackPanel>
 
-                                                <StackPanel Orientation="Horizontal" Spacing="10">
+                                                <StackPanel Orientation="Horizontal" Spacing="10" Margin="15,0,0,0">
                                                     
                                                     <Border Width="8"
                                                             Height="8"
@@ -751,7 +752,7 @@
 
                                             <Separator Background="#444444" Height="1"/>
 
-                                            <Grid ColumnDefinitions="Auto, *">
+                                            <Grid ColumnDefinitions="Auto, *" Margin="15,0,0,0">
 
                                                 <Border Grid.Column="0"
                                                         Width="36" Height="60"
@@ -819,9 +820,9 @@
                                                                     Height="10"
                                                                     VerticalAlignment="Center">
 
-                                                            <Border Width="3" Height="4" Background="#2ECC71" CornerRadius="1" VerticalAlignment="Bottom"/>
-                                                            <Border Width="3" Height="6" Background="#2ECC71" CornerRadius="1" VerticalAlignment="Bottom"/>
-                                                            <Border Width="3" Height="8" Background="#2ECC71" CornerRadius="1" VerticalAlignment="Bottom"/>
+                                                            <Border Width="3" Height="4" Background="White" CornerRadius="1" VerticalAlignment="Bottom"/>
+                                                            <Border Width="3" Height="6" Background="White" CornerRadius="1" VerticalAlignment="Bottom"/>
+                                                            <Border Width="3" Height="8" Background="White" CornerRadius="1" VerticalAlignment="Bottom"/>
                                                             <Border Width="3" Height="10" Background="#444444" CornerRadius="1" VerticalAlignment="Bottom"/>
                                                         </StackPanel>
 
