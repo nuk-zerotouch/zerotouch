@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using Avalonia.Animation;
 using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
@@ -37,10 +38,10 @@ namespace ZeroTouch.UI.ViewModels
         [ObservableProperty] private bool _isPlaying;
 
         // Page state
-        // 0: Dashboard (Home)
-        // 1: Settings
+        // 0: Settings
+        // 1: Dashboard (Home)
         // 2: Phone
-        [ObservableProperty] private int _currentPageIndex = 0;
+        [ObservableProperty] private int _currentPageIndex = 1;
 
         // Phone Features
         [ObservableProperty] private string _displayNumber = "";
@@ -48,6 +49,26 @@ namespace ZeroTouch.UI.ViewModels
         // Settings options
         [ObservableProperty] private bool _isDarkTheme = true;
         [ObservableProperty] private bool _isClockBlinking = true;
+
+        [ObservableProperty] private IPageTransition _currentPageTransition;
+
+        private readonly IPageTransition _horizontalTransition = new CompositePageTransition
+        {
+            PageTransitions = new()
+            {
+                new PageSlide(TimeSpan.FromSeconds(0.5), PageSlide.SlideAxis.Horizontal),
+                new CrossFade(TimeSpan.FromSeconds(0.5))
+            }
+        };
+
+        private readonly IPageTransition _verticalTransition = new CompositePageTransition
+        {
+            PageTransitions = new()
+            {
+                new PageSlide(TimeSpan.FromSeconds(0.5), PageSlide.SlideAxis.Vertical),
+                new CrossFade(TimeSpan.FromSeconds(0.5))
+            }
+        };
 
         public IImage PlayPauseIconPath
         {
@@ -76,6 +97,8 @@ namespace ZeroTouch.UI.ViewModels
 
             _ = LoadWeatherAsync();
             _player = new MusicPlayerService();
+
+            _currentPageTransition = _horizontalTransition;
 
             _player.SetPlaylist(new[]
             {
@@ -371,18 +394,29 @@ namespace ZeroTouch.UI.ViewModels
         [RelayCommand]
         private void ShowHome()
         {
-            CurrentPageIndex = 0;
+            if (CurrentPageIndex == 0)
+            {
+                CurrentPageTransition = _horizontalTransition;
+            }
+            else if (CurrentPageIndex == 2)
+            {
+                CurrentPageTransition = _verticalTransition;
+            }
+
+            CurrentPageIndex = 1;
         }
 
         [RelayCommand]
         private void ShowSettings()
         {
-            CurrentPageIndex = 1;
+            CurrentPageTransition = _horizontalTransition;
+            CurrentPageIndex = 0;
         }
 
         [RelayCommand]
         private void ShowPhone()
         {
+            CurrentPageTransition = _verticalTransition;
             CurrentPageIndex = 2;
         }
 
@@ -392,7 +426,10 @@ namespace ZeroTouch.UI.ViewModels
             // Map is now a sub-page of Dashboard.
             // Add new page index if maps becomes an
             // independent page in the future.
-            CurrentPageIndex = 0;
+            if (CurrentPageIndex == 0) CurrentPageTransition = _horizontalTransition;
+            else if (CurrentPageIndex == 2) CurrentPageTransition = _verticalTransition;
+
+            CurrentPageIndex = 1;
         }
     }
 }
