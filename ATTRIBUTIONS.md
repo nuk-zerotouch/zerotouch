@@ -56,6 +56,9 @@ All assets remain the property of their respective authors and are used accordin
 | **Precipitation Icon** | <a href="https://www.flaticon.com/free-icons/precipitation" title="precipitation icons">Precipitation icons created by Laura Reen - Flaticon</a> | Laura Reen | Flaticon License |
 | **Leaf Icon** | <a href="https://www.flaticon.com/free-icons/leaf" title="leaf icons">Leaf icons created by Good Ware - Flaticon</a> | Good Ware | Flaticon License |
 | **Backspace Icon** | <a href="https://www.flaticon.com/free-icons/backspace" title="backspace icons">Backspace icons created by Anggara - Flaticon</a> | Anggara | Flaticon License |
+| **Microphone On Icon** | <a href="https://www.flaticon.com/free-icons/mic" title="mic icons">Mic icons created by Hight Quality Icons - Flaticon</a> | Hight Quality Icons | Flaticon License |
+| **Microphone Off Icon** | <a href="https://www.flaticon.com/free-icons/microphone" title="microphone icons">Microphone icons created by Hight Quality Icons - Flaticon</a> | Hight Quality Icons | Flaticon License |
+| **Hang Up Icon** | <a href="https://www.flaticon.com/free-icons/end" title="end icons">End icons created by dmitri13 - Flaticon</a> | dmitri13 | Flaticon License |
 
 <br>
 
