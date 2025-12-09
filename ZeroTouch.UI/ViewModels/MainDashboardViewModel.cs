@@ -42,7 +42,7 @@ namespace ZeroTouch.UI.ViewModels
         // 0: Settings
         // 1: Dashboard (Home)
         // 2: Phone
-        // 3: Map
+        // 3: Maps
         // 4: In-Call
         [ObservableProperty] private int _currentPageIndex = 1;
 
@@ -477,8 +477,11 @@ namespace ZeroTouch.UI.ViewModels
         [RelayCommand]
         private void ShowMaps()
         {
+            // Map is now a sub-page of Dashboard.
+            // Add new page index if maps becomes an
+            // independent page in the future.
             if (CurrentPageIndex == 0) CurrentPageTransition = _horizontalTransition;
-            else if (CurrentPageIndex == 1) CurrentPageTransition = _verticalTransition;
+            else if (CurrentPageIndex == 2) CurrentPageTransition = _verticalTransition;
 
             CurrentPageIndex = 3;
         }

@@ -1296,7 +1296,7 @@
                                     Padding="20"
                                     ClipToBounds="True">
 
-                                <mapsui:MapControl />
+                                <mapsui:MapControl Name="MapViewMapControl" />
 
                             </Border>
                         </Grid>

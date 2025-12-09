@@ -3,6 +3,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Threading;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Platform;
 using BruTile.Web;
 using Mapsui;
 using Mapsui.Extensions;
@@ -42,7 +43,11 @@ namespace ZeroTouch.UI.Views
         {
             InitializeComponent();
 
-            InitializeMap();
+            // This will run in the designer, providing a preview for the MapView.
+            InitializeMapView_ForPreview();
+
+            // Runtime initialization is moved to the Loaded event to avoid issues in the designer.
+            this.Loaded += MainDashboardView_Loaded;
 
             var slider = this.FindControl<Slider>("ProgressSlider");
             if (slider != null)
@@ -207,7 +212,7 @@ namespace ZeroTouch.UI.Views
 
             feature.Styles.Add(new VectorStyle
             {
-                Line = new Pen(Color.FromArgb(200, 33, 150, 243), 6) // Blue
+                Line = new Pen(Color.FromArgb(200, 33, 150, 243), 3) // Blue
             });
 
             return new MemoryLayer
@@ -392,6 +397,84 @@ namespace ZeroTouch.UI.Views
             }
 
             return new Polygon(new LinearRing(rotatedCoordinates));
+        }
+
+        private void MainDashboardView_Loaded(object? sender, RoutedEventArgs e)
+        {
+            this.Loaded -= MainDashboardView_Loaded; // Prevent multiple calls
+            InitializeMap(); // Initialize the main dashboard map at runtime
+        }
+
+        private void InitializeMapView_ForPreview()
+        {
+            try
+            {
+                var mapViewMapControl = this.FindControl<MapControl>("MapViewMapControl");
+                if (mapViewMapControl != null)
+                {
+                    var map = new Map();
+                    map.Layers.Add(new TileLayer(new HttpTileSource(new BruTile.Predefined.GlobalSphericalMercator(), "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png", new[] { "a", "b", "c", "d" }, name: "CartoDB Voyager")));
+
+                    (double, double)[] lonLats;
+                    var routeUri = new Uri("avares://ZeroTouch.UI/Assets/Routes/route-1.json");
+
+                    if (AssetLoader.Exists(routeUri))
+                    {
+                        using var stream = AssetLoader.Open(routeUri);
+                        using var reader = new System.IO.StreamReader(stream);
+                        var jsonContent = reader.ReadToEnd();
+
+                        using (var doc = System.Text.Json.JsonDocument.Parse(jsonContent))
+                        {
+                            lonLats = doc.RootElement.EnumerateArray()
+                                .Select(p => (p.GetProperty("lon").GetDouble(), p.GetProperty("lat").GetDouble()))
+                                .ToArray();
+                        }
+                    }
+                    else
+                    {
+                        // Fallback to hardcoded data if file not found in designer
+                        lonLats = new[]
+                        {
+                            (0.0,0.0)
+                        };
+                    }
+
+                    var originalWaypoints = new List<MPoint>();
+                    foreach (var (lon, lat) in lonLats)
+                    {
+                        var p = SphericalMercator.FromLonLat(lon, lat);
+                        originalWaypoints.Add(new MPoint(p.x, p.y));
+                    }
+
+                    var interpolatedPath = InterpolatePath(originalWaypoints, stepSize: 1.2);
+                    if (interpolatedPath.Any())
+                    {
+                        var routeLayer = CreateRouteLayer(interpolatedPath);
+                        map.Layers.Add(routeLayer);
+
+                        var destLayer = CreateDestinationLayer(interpolatedPath.Last());
+                        map.Layers.Add(destLayer);
+
+                        mapViewMapControl.Map = map;
+                        if (routeLayer.Extent is not null)
+                        {
+                            mapViewMapControl.Map.Navigator.ZoomToBox(routeLayer.Extent.Grow(100));
+                        }
+                    }
+                    else
+                    {
+                        mapViewMapControl.Map = map;
+                        var center = SphericalMercator.FromLonLat(120.29, 22.72);
+                        mapViewMapControl.Map.Navigator.CenterOn(new MPoint(center.x, center.y));
+                        mapViewMapControl.Map.Navigator.ZoomTo(14);
+                    }
+                }
+            }
+            catch
+            {
+                // Ignore exceptions in designer
+            }
         }
 
         private double LerpAngle(double current, double target, double t)
