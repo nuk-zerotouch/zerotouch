@@ -40,7 +40,7 @@ namespace ZeroTouch.UI.Views
 
         private double _currentVehicleAngle = 0;
 
-        // 1. 新增一個變數來儲存終點圖層，方便後續更新
+        // 新增一個變數來儲存終點圖層，方便後續更新
         private MemoryLayer? _destinationLayer;
         //用來紀錄目前哪一個方塊被選中
         private Border? _selectedRouteBorder; 
@@ -115,14 +115,30 @@ namespace ZeroTouch.UI.Views
             // 確保載入後執行預設路徑 (Home)
             _mapControl.Loaded += (s, e) =>
             {
-                // 預設載入第一條路徑
+                // 1. 設定您想要的「預設起始座標」(這裡示範設為 Home 的起點)
+                double startLon = 120.2846; 
+                double startLat = 22.7322;
+                
+                // 轉成地圖座標 (SphericalMercator)
+                var p = SphericalMercator.FromLonLat(startLon, startLat);
+                var startPoint = new MPoint(p.x, p.y);
+
+                // 2. 將地圖中心對準這裡
+                if (_mapControl?.Map?.Navigator != null)
+                {
+                    _mapControl.Map.Navigator.CenterOn(startPoint);
+                    _mapControl.Map.Navigator.ZoomTo(2.0); // 設定縮放層級
+                }
+
+                // 3. 預載入 Home 路徑的預覽
                 PreviewRoute("Home");
+
+                // 4. 重要：確保計時器是停止的 (不要自動開始跑)
+                _navigationTimer?.Stop();
             };
         }
 
-        // ... (前面的 using 與變數宣告保持不變) ...
-
-        // 1. [新增] 獨立的讀檔方法：只負責回傳座標，不負責畫圖
+        // 1. 獨立的讀檔方法：只負責回傳座標，不負責畫圖
         private List<MPoint> GetRoutePoints(string routeIdentifier)
         {
             string fileName;
@@ -169,7 +185,7 @@ namespace ZeroTouch.UI.Views
             return points;
         }
 
-        // 2. [新增] 預覽方法：只更新右邊的靜態地圖 (MapViewMapControl)
+        // 2. 預覽：只更新右邊的靜態地圖 (MapViewMapControl)
         private void PreviewRoute(string routeIdentifier)
         {
             var originalWaypoints = GetRoutePoints(routeIdentifier);
@@ -208,7 +224,7 @@ namespace ZeroTouch.UI.Views
             previewMapControl.RefreshGraphics();
         }
 
-        // 3. [修改] 導航方法 (取代原本的 LoadRoute)：負責主畫面動畫與頁面跳轉
+        // 3. 導航方法 (取代原本的 LoadRoute)：負責主畫面動畫與頁面跳轉
         private void StartNavigation(string routeIdentifier)
         {
             _navigationTimer?.Stop();
@@ -263,7 +279,7 @@ namespace ZeroTouch.UI.Views
             }
         }
 
-        // 5. [修改] 事件處理：點擊 Go 按鈕時開始導航
+        // 5. 點擊 Go 按鈕時開始導航
         private void OnGoRouteClick(object? sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.Tag is string routeName)
@@ -497,7 +513,46 @@ namespace ZeroTouch.UI.Views
 
                 // Rotate the map slightly for effect
                 // _mapControl.Map.Navigator.RotateTo(_mapControl.Map.Navigator.Viewport.Rotation + 0.01);
+                
+                // ==========================================
+                // [新增] 計算距離並更新 ViewModel
+                // ==========================================
+                if (DataContext is MainDashboardViewModel vm)
+                {
+                    // 1. 計算距離下一個轉彎的距離
+                    double distToTurn = GetDistanceToNextTurn(_currentStepIndex);
+                    
+                    // 2. 計算總剩餘距離 (用來判斷是否快到終點)
+                    double distToDest = CalculateRemainingDistance(_currentStepIndex); // 這是上一輪教的方法，保留著用
 
+                    // 3. 判斷邏輯
+                    if (distToDest < 30) 
+                    {
+                        // 如果離總終點小於 20 公尺
+                        vm.NavigationDistance = "Arriving";
+                        vm.NavigationInstruction = "Destination";
+                        vm.NavigationIcon = "●";
+                    }
+                    else
+                    {
+                        // 更新距離顯示
+                        if (distToTurn > 1000)
+                            vm.NavigationDistance = $"in {(distToTurn / 1000.0):F1} km";
+                        else
+                            vm.NavigationDistance = $"in {(int)distToTurn} m";
+
+                        // 更新轉彎指令 (這部分結合上一輪的轉彎判斷)
+                        UpdateTurnInstruction(vm); 
+                        
+                        // 優化顯示：如果是直線且距離很長
+                        if (vm.NavigationIcon == "↑") 
+                        {
+                            // 直行時，通常顯示 "Go Straight" 搭配 "距離下個轉彎"
+                            // 這樣使用者就知道要直走多久
+                        }
+                    }
+                }
+                // ==========================================
                 _mapControl.RefreshGraphics();
             };
 
@@ -625,6 +680,123 @@ namespace ZeroTouch.UI.Views
             while (diff < -180) diff += 360;
 
             return current + diff * t;
+        }
+    
+        // 在 class 內新增一個計算剩餘距離的方法
+        private double CalculateRemainingDistance(int currentIndex)
+        {
+            double totalDistance = 0;
+            
+            // 從當前索引開始，累加到最後一個點的距離
+            // 注意：這是一個簡單的估算，實際導航通常只算到「下一個轉彎點」
+            // 但因為你的路徑是插值過的(interpolated)，點非常密，這樣累加會得到總剩餘距離
+            for (int i = currentIndex; i < _interpolatedPath.Count - 1; i++)
+            {
+                totalDistance += _interpolatedPath[i].Distance(_interpolatedPath[i + 1]);
+            }
+            
+            return totalDistance;
+        }
+    
+        // 放在 MainDashboardView 類別內   
+        private void UpdateTurnInstruction(MainDashboardViewModel vm)
+        {
+            // 1. 設定「前瞻距離」：往後看約 80 個點 (因為 stepSize=1.2，約 48 公尺)
+            int lookAheadSteps = 80; 
+            
+            // 如果快到終點了，就不判斷了
+            if (_currentStepIndex + lookAheadSteps + 1 >= _interpolatedPath.Count)
+            {
+                vm.NavigationInstruction = "Arriving";
+                vm.NavigationIcon = "●"; // 終點圖示
+                return;
+            }
+
+            // 2. 取得「當前向量」 (車子現在的方向)
+            var pNow = _interpolatedPath[_currentStepIndex];
+            var pNext = _interpolatedPath[_currentStepIndex + 1];
+            double dx1 = pNext.X - pNow.X;
+            double dy1 = pNext.Y - pNow.Y;
+            double angleCurrent = Math.Atan2(dy1, dx1); // 弧度
+
+            // 3. 取得「未來向量」 (前方路段的方向)
+            var pFuture = _interpolatedPath[_currentStepIndex + lookAheadSteps];
+            var pFutureNext = _interpolatedPath[_currentStepIndex + lookAheadSteps + 1];
+            double dx2 = pFutureNext.X - pFuture.X;
+            double dy2 = pFutureNext.Y - pFuture.Y;
+            double angleFuture = Math.Atan2(dy2, dx2); // 弧度
+
+            // 4. 計算角度差 (將差異限制在 -PI 到 +PI 之間)
+            double diff = angleFuture - angleCurrent;
+            while (diff > Math.PI) diff -= 2 * Math.PI;
+            while (diff < -Math.PI) diff += 2 * Math.PI;
+
+            // 5. 設定閾值 (例如 20度 ≒ 0.35 弧度) 來判斷是否轉彎
+            // 正值代表左轉 (逆時針)，負值代表右轉 (順時針) - 這是數學上的定義
+            // 但在地圖座標(Y向上)中：
+            // 如果車向東(0)，未來向北(90度)，差+90 => 左轉
+            // 如果車向東(0)，未來向南(-90度)，差-90 => 右轉
+
+            double turnThreshold = 0.35; // 約 20 度
+
+            if (diff > turnThreshold)
+            {
+                vm.NavigationInstruction = "Turn Left";
+                vm.NavigationIcon = "↰";
+            }
+            else if (diff < -turnThreshold)
+            {
+                vm.NavigationInstruction = "Turn Right";
+                vm.NavigationIcon = "↱";
+            }
+            else
+            {
+                // 角度變化不大，顯示直行
+                vm.NavigationInstruction = "Go Straight";
+                vm.NavigationIcon = "↑";
+            }
+        }
+    
+        // 鎖定車子目前的行進角度，然後往後檢查路徑，一旦發現某個點的角度與起始角度偏差超過一定數值（例如 25 度），就認定那是轉彎點。
+        private double GetDistanceToNextTurn(int currentIndex)
+        {
+            // 如果已經到終點，距離為 0
+            if (currentIndex >= _interpolatedPath.Count - 1) return 0;
+
+            double accumulatedDistance = 0;
+            
+            // 1. 取得當前車子行進的基準角度 (Start Angle)
+            var pCurrent = _interpolatedPath[currentIndex];
+            var pNext = _interpolatedPath[currentIndex + 1];
+            double baseAngle = Math.Atan2(pNext.Y - pCurrent.Y, pNext.X - pCurrent.X);
+
+            // 2. 往後掃描路徑
+            for (int i = currentIndex; i < _interpolatedPath.Count - 1; i++)
+            {
+                var p1 = _interpolatedPath[i];
+                var p2 = _interpolatedPath[i + 1];
+
+                // 累加每一小段的距離
+                double segmentDist = p1.Distance(p2);
+                accumulatedDistance += segmentDist;
+
+                // 3. 計算掃描到的路段角度
+                double scanAngle = Math.Atan2(p2.Y - p1.Y, p2.X - p1.X);
+
+                // 4. 計算與基準角度的差異 (處理 -PI 到 +PI 的循環)
+                double diff = scanAngle - baseAngle;
+                while (diff > Math.PI) diff -= 2 * Math.PI;
+                while (diff < -Math.PI) diff += 2 * Math.PI;
+
+                // 5. 設定閾值：如果角度偏差超過 25 度 (約 0.43 弧度)，視為轉彎點
+                if (Math.Abs(diff) > 0.43)
+                {
+                    return accumulatedDistance;
+                }
+            }
+
+            // 如果一路到底都沒有大轉彎，就回傳到終點的距離
+            return accumulatedDistance;
         }
     }
 }

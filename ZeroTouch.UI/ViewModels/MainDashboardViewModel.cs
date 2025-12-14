@@ -54,6 +54,13 @@ namespace ZeroTouch.UI.ViewModels
         [ObservableProperty] private bool _isKeypadVisible = false;
         [ObservableProperty] private bool _isSpeakerOn = false;
 
+        // 導航指令 (例如 "Turn Right", "Go Straight")
+        [ObservableProperty] private string _navigationInstruction = "Follow Route";
+        // 導航距離文字 (例如 "in 300 meters")
+        [ObservableProperty] private string _navigationDistance = "Calculating...";
+        //導航圖示 (預設直行箭頭)
+        [ObservableProperty]
+        private string _navigationIcon = "↑";
         // Settings options
         [ObservableProperty] private bool _isDarkTheme = true;
         [ObservableProperty] private bool _isClockBlinking = true;

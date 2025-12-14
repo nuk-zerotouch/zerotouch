@@ -700,7 +700,7 @@
                                                 Background="#2ECC71"
                                                 Margin="0,0,15,0">
 
-                                            <TextBlock Text="↱"
+                                            <TextBlock Text="{Binding NavigationIcon}"
                                                        FontSize="30"
                                                        Foreground="White"
                                                        HorizontalAlignment="Center"
@@ -710,12 +710,12 @@
 
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
 
-                                            <TextBlock Text="Turn Right"
+                                            <TextBlock Text="{Binding NavigationInstruction}"
                                                        FontWeight="Bold"
                                                        Foreground="White"
                                                        FontSize="18"/>
 
-                                            <TextBlock Text="in 300 meters"
+                                            <TextBlock Text="{Binding NavigationDistance}"
                                                        Foreground="#CCCCCC"
                                                        FontSize="14"/>
                                         </StackPanel>
