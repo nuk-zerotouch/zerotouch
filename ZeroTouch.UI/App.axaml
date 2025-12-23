@@ -2,9 +2,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="ZeroTouch.UI.App"
              xmlns:local="using:ZeroTouch.UI"
+             xmlns:converters="using:ZeroTouch.UI.Converters"
              RequestedThemeVariant="Default">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
+    <Application.Resources>
+        <converters:SlideToWidthConverter x:Key="SlideToWidthConverter"/>
+    </Application.Resources>
+             
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>

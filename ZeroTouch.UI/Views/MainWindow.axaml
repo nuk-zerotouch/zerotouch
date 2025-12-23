@@ -17,5 +17,7 @@
 	<Grid>
 		<!-- Default view: MainConsole. To test connection, change this value to GestureDebugView. -->
 		<ContentControl Content="{Binding CurrentView}"/>
+        
+        <views:DriverStateView DataContext="{Binding DriverStateVm}" />
 	</Grid>
 </Window>

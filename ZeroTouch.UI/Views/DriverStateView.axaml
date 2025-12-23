@@ -1,0 +1,58 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:ZeroTouch.UI.ViewModels"
+             x:Class="ZeroTouch.UI.Views.DriverStateView"
+             x:DataType="vm:DriverStateViewModel"
+             IsVisible="{Binding IsFatigueActive}">
+    
+    <Grid Background="#AA000000">
+
+        <StackPanel
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="24">
+
+            <!-- Alert message -->
+            <TextBlock
+                Text="{Binding WarningText}"
+                Foreground="White"
+                FontSize="32"
+                TextAlignment="Center"
+                FontWeight="Bold"/>
+            
+            <TextBlock
+                Text="由左向右滑動以解除警告"
+                Foreground="#CCCCCC"
+                FontSize="18"
+                HorizontalAlignment="Center"/>
+            
+            <Border
+                Width="400"
+                Height="64"
+                CornerRadius="32"
+                Background="#333333"
+                Padding="6">
+
+                <Grid>
+                    <Border
+                        Background="#66FFFFFF"
+                        CornerRadius="32"
+                        Width="{Binding SlideProgress,
+                        Converter={StaticResource SlideToWidthConverter},
+                        ConverterParameter=400}"/>
+                    
+                    <Border
+                        Width="52"
+                        Height="52"
+                        CornerRadius="26"
+                        Background="White"
+                        HorizontalAlignment="Left"
+                        RenderTransformOrigin="0.5,0.5"
+                        PointerPressed="OnSliderPressed"
+                        PointerMoved="OnSliderMoved"
+                        PointerReleased="OnSliderReleased"/>
+                </Grid>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>
