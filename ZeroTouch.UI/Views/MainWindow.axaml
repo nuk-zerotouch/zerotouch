@@ -10,17 +10,17 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="ZeroTouch.UI">
 
-	<Design.DataContext>
-		<vm:MainWindowViewModel/>
-	</Design.DataContext>
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
 
-	<Grid>
-		<!-- Default view: MainConsole. To test connection, change this value to GestureDebugView. -->
-		<ContentControl Content="{Binding CurrentView}"/>
-        
+    <Grid>
+        <!-- Default view: MainConsole. To test connection, change this value to GestureDebugView. -->
+        <ContentControl Content="{Binding CurrentView}" />
+
         <!-- Driver State overlay -->
         <views:DriverStateView
             DataContext="{Binding DriverStateVm}"
-            IsVisible="{Binding IsFatigueActive}"/>
-	</Grid>
+            IsVisible="{Binding IsFatigueActive}" />
+    </Grid>
 </Window>
