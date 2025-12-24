@@ -75,7 +75,7 @@ async def gesture_debug_loop():
 
 async def driver_debug_loop():
     last_sent = 0
-    COOLDOWN = 5
+    COOLDOWN = 20
 
     while True:
         await asyncio.sleep(1.0)
