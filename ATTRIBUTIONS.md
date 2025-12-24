@@ -83,6 +83,14 @@ All assets remain the property of their respective authors and are used accordin
 | **Nostalgic_Piano.mp3** | FreePD (https://freepd.com/) | Rafael Krux | Creative Commons 0 (CC0) - Public Domain |
 | **Shining_Stars.mp3** | FreePD (https://freepd.com/) | Rafael Krux | Creative Commons 0 (CC0) - Public Domain |
 
+## Pixabay
+
+<br>
+
+| Asset         | Source | Author | License |
+|---------------|--------|--------|---------|
+| **alarm.mp3** | Sound Effect by <a href="https://pixabay.com/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=26718">freesound_community</a> from <a href="https://pixabay.com/sound-effects//?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=26718">Pixabay</a> | sparrowdagamer (Freesound) | Pixabay Content License |
+
 <br>
 
 ---
