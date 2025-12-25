@@ -17,9 +17,11 @@ namespace ZeroTouch.UI.Services
 
         public async Task ConnectAsync(string uri)
         {
-            if (_client != null)
+            if (_client is { State: WebSocketState.Open or WebSocketState.Connecting })
                 return;
 
+            Cleanup();
+            
             // Create new instance for each connection attempt
             _client = new ClientWebSocket();
             _cts = new CancellationTokenSource();
@@ -29,8 +31,7 @@ namespace ZeroTouch.UI.Services
                 await _client.ConnectAsync(new Uri(uri), _cts.Token);
                 OnConnectionStatusChanged?.Invoke("Connected");
                 Console.WriteLine($"Connected to {uri}");
-                
-                _receiveTask = Task.Run(ReceiveLoopAsync);
+                _receiveTask = Task.Run(() => ReceiveLoopAsync(_client, _cts));
             }
             catch (Exception ex)
             {
@@ -39,7 +40,7 @@ namespace ZeroTouch.UI.Services
             }
         }
         
-        private async Task ReceiveLoopAsync()
+        private async Task ReceiveLoopAsync(ClientWebSocket client, CancellationTokenSource cts)
         {
             var buffer = new byte[2048];
             var sb = new StringBuilder();
@@ -47,9 +48,9 @@ namespace ZeroTouch.UI.Services
             try
             {
                 // start receiving messages
-                while (_client?.State == WebSocketState.Open && !_cts!.IsCancellationRequested)
+                while (client.State == WebSocketState.Open && !cts.IsCancellationRequested)
                 {
-                    var result = await _client.ReceiveAsync(buffer, _cts.Token);
+                    var result = await client.ReceiveAsync(buffer, cts.Token);
 
                     if (result.MessageType == WebSocketMessageType.Close)
                         break;
@@ -82,23 +83,29 @@ namespace ZeroTouch.UI.Services
 
         public async Task DisconnectAsync()
         {
-            if (_client == null)
+            var client = _client;
+            var cts = _cts;
+
+            if (client == null || cts == null)
                 return;
 
             try
             {
-                _cts?.Cancel();
+                cts.Cancel();
 
-                if (_client.State == WebSocketState.Open)
+                if (client.State == WebSocketState.Open)
                 {
-                    await _client.CloseAsync(
+                    await client.CloseAsync(
                         WebSocketCloseStatus.NormalClosure,
                         "Closed by user",
                         CancellationToken.None
                     );
                 }
             }
-            catch { }
+            catch
+            {
+                // swallow
+            }
             finally
             {
                 Cleanup();
@@ -107,8 +114,9 @@ namespace ZeroTouch.UI.Services
         
         private void Cleanup()
         {
-            _client?.Dispose();
-            _cts?.Dispose();
+            try { _cts?.Cancel(); } catch { }
+            try { _client?.Dispose(); } catch { }
+            try { _cts?.Dispose(); } catch { }
 
             _client = null;
             _cts = null;
@@ -117,12 +125,13 @@ namespace ZeroTouch.UI.Services
         
         public async Task SendAsync(string json)
         {
-            if (_client == null || _client.State != WebSocketState.Open)
+            var client = _client;
+            if (client == null || client.State != WebSocketState.Open)
                 return;
 
             var buffer = Encoding.UTF8.GetBytes(json);
 
-            await _client.SendAsync(
+            await client.SendAsync(
                 buffer,
                 WebSocketMessageType.Text,
                 true,

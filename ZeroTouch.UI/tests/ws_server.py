@@ -41,19 +41,24 @@ async def handle_client(ws):
             if data.get("type") == "command":
                 cmd = data.get("cmd")
                 
-                if cmd == "toggle_gesture_debug":
-                    gesture_debug = not gesture_debug
-                    print("Gesture debug:", gesture_debug)
-                    
-                elif cmd == "toggle_driver_debug":
-                    driver_debug = not driver_debug
-                    print("Driver debug:", driver_debug)
+                if cmd == "set_gesture_debug":
+                    gesture_debug = bool(data.get("value", False))
+                    print("Gesture debug set to:", gesture_debug)
+
+                elif cmd == "set_driver_debug":
+                    driver_debug = bool(data.get("value", False))
+                    print("Driver debug set to:", driver_debug)
     
     except websockets.exceptions.ConnectionClosed:
         pass
     finally:
         clients.remove(ws)
         print("Client disconnected.")
+
+        if not clients:
+            gesture_debug = False
+            driver_debug = False
+            print("No clients -> reset debug flags to False")
 
 async def gesture_debug_loop():
     while True:

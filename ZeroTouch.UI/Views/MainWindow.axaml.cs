@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using ZeroTouch.UI.ViewModels;
@@ -14,29 +15,36 @@ namespace ZeroTouch.UI.Views
             // Listen for key events
             this.KeyDown += OnKeyDown;
         }
+        
+        protected override async void OnClosing(WindowClosingEventArgs e)
+        {
+            if (DataContext is MainWindowViewModel vm)
+            {
+                await vm.OnAppClosingAsync();
+            }
+
+            base.OnClosing(e);
+        }
 
         private async void OnKeyDown(object? sender, KeyEventArgs e)
         {
-            try
-            {
-                if (DataContext is not MainWindowViewModel vm)
-                    return;
+            _ = HandleKeyAsync(e);
+        }
+        
+        private async Task HandleKeyAsync(KeyEventArgs e)
+        {
+            if (DataContext is not MainWindowViewModel vm)
+                return;
 
-                switch (e.Key)
-                {
-                    case Key.F2:
-                        vm.ToggleDebugMode();
-                        await vm.SendCommand("toggle_gesture_debug");
-                        break;
-
-                    case Key.F3:
-                        await vm.SendCommand("toggle_driver_debug");
-                        break;
-                }
-            }
-            catch (Exception ex)
+            switch (e.Key)
             {
-                Console.Error.WriteLine(ex);
+                case Key.F2:
+                    vm.ToggleDebugMode();
+                    break;
+
+                case Key.F3:
+                    await vm.SendCommand("set_driver_debug", true);
+                    break;
             }
         }
     }

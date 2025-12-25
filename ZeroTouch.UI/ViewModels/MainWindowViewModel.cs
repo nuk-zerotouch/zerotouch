@@ -45,17 +45,19 @@ namespace ZeroTouch.UI.ViewModels
             });
         }
         
-        public async Task SendCommand(string cmd)
+        public async Task SendCommand(string cmd, bool value)
         {
             var msg = new
             {
                 type = "command",
-                cmd = cmd
+                cmd = cmd,
+                value = value
             };
 
             var json = JsonSerializer.Serialize(msg);
             await _wsClient.SendAsync(json);
         }
+
 
         [RelayCommand]
         private void ToggleView()
@@ -63,12 +65,25 @@ namespace ZeroTouch.UI.ViewModels
             CurrentView = CurrentView == _dashboardViewModel ? _debugViewModel : _dashboardViewModel;
         }
 
-        public void ToggleDebugMode()
+        public async void ToggleDebugMode()
         {
             if (CurrentView == _dashboardViewModel)
+            {
                 CurrentView = _debugViewModel;
+                await SendCommand("set_gesture_debug", true);
+            }
             else
+            {
+                await SendCommand("set_gesture_debug", false);
                 CurrentView = _dashboardViewModel;
+            }
         }
+        
+        public async Task OnAppClosingAsync()
+        {
+            await SendCommand("set_gesture_debug", false);
+            await _wsClient.DisconnectAsync();
+        }
+
     }
 }
