@@ -15,7 +15,7 @@ namespace ZeroTouch.UI.Views
             // Listen for key events
             this.KeyDown += OnKeyDown;
         }
-        
+
         protected override async void OnClosing(WindowClosingEventArgs e)
         {
             if (DataContext is MainWindowViewModel vm)
@@ -29,8 +29,39 @@ namespace ZeroTouch.UI.Views
         private async void OnKeyDown(object? sender, KeyEventArgs e)
         {
             _ = HandleKeyAsync(e);
+    
+            if (DataContext is not MainWindowViewModel vm)
+                return;
+
+            switch (e.Key)
+            {
+                case Key.Up:
+                    vm.ActiveFocusGroup = vm.DockFocusGroup;
+                    vm.DockFocusGroup.Move(-1);
+                    break;
+
+                case Key.Down:
+                    vm.ActiveFocusGroup = vm.DockFocusGroup;
+                    vm.DockFocusGroup.Move(+1);
+                    break;
+                
+                case Key.Left:
+                    vm.ActiveFocusGroup = vm.MusicFocusGroup;
+                    vm.MusicFocusGroup.Move(-1);
+                    break;
+
+                case Key.Right:
+                    vm.ActiveFocusGroup = vm.MusicFocusGroup;
+                    vm.MusicFocusGroup.Move(+1);
+                    break;
+                
+                case Key.Enter:
+                case Key.Space:
+                    vm.ActiveFocusGroup?.Activate();
+                    break;
+            }
         }
-        
+
         private async Task HandleKeyAsync(KeyEventArgs e)
         {
             if (DataContext is not MainWindowViewModel vm)

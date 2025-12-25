@@ -5,6 +5,7 @@ using System;
 using System.Text.Json;
 using System.Threading.Tasks;
 using ZeroTouch.UI.Services;
+using ZeroTouch.UI.Navigation;
 
 namespace ZeroTouch.UI.ViewModels
 {
@@ -12,6 +13,12 @@ namespace ZeroTouch.UI.ViewModels
     {
         [ObservableProperty]
         private object _currentView;
+        
+        [ObservableProperty]
+        private FocusGroup _activeFocusGroup;
+        
+        public FocusGroup DockFocusGroup { get; }
+        public FocusGroup MusicFocusGroup { get; }
         
         private readonly AppWebSocketClient _wsClient;
         
@@ -34,6 +41,21 @@ namespace ZeroTouch.UI.ViewModels
             _ = _wsClient.ConnectAsync("ws://localhost:8765");
             
             _wsClient.OnMessageReceived += OnWsMessage;
+            
+            ActiveFocusGroup = DockFocusGroup;
+            
+            DockFocusGroup = new FocusGroup([
+                new FocusItemViewModel(_dashboardViewModel.ShowHomeCommand),
+                new FocusItemViewModel(_dashboardViewModel.ShowPhoneCommand),
+                new FocusItemViewModel(_dashboardViewModel.ShowMapsCommand),
+                new FocusItemViewModel(_dashboardViewModel.ShowSettingsCommand)
+            ]);
+
+            MusicFocusGroup = new FocusGroup([
+                new FocusItemViewModel(_dashboardViewModel.PreviousCommand),
+                new FocusItemViewModel(_dashboardViewModel.PlayPauseCommand),
+                new FocusItemViewModel(_dashboardViewModel.NextCommand)
+            ]);
         }
         
         private void OnWsMessage(string json)
@@ -84,6 +106,5 @@ namespace ZeroTouch.UI.ViewModels
             await SendCommand("set_gesture_debug", false);
             await _wsClient.DisconnectAsync();
         }
-
     }
 }

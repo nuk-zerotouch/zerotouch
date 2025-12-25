@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="using:ZeroTouch.UI.ViewModels"
+             xmlns:nav="using:ZeroTouch.UI.Navigation"
              xmlns:gif="clr-namespace:Avalonia.Labs.Gif;assembly=Avalonia.Labs.Gif"
              xmlns:ani="clr-namespace:Avalonia.Animation;assembly=Avalonia.Animation"
              xmlns:mapsui="clr-namespace:Mapsui.UI.Avalonia;assembly=Mapsui.UI.Avalonia"
@@ -19,6 +20,7 @@
     <UserControl.Styles>
         <Style Selector="Button.dock-btn">
 
+            <Setter Property="Focusable" Value="False"/>
             <Setter Property="Width" Value="70"/>
             <Setter Property="Height" Value="70"/>
             <Setter Property="CornerRadius" Value="35"/>
@@ -148,6 +150,7 @@
         <Style Selector="Button.keypad-btn">
             <Setter Property="Width" Value="60"/>
             <Setter Property="Height" Value="60"/>
+            <Setter Property="Focusable" Value="False"/>
             <Setter Property="CornerRadius" Value="30"/>
             <Setter Property="Background" Value="#252525"/>
             <Setter Property="Foreground" Value="White"/>
@@ -251,6 +254,17 @@
                 </Animation>
             </Style.Animations>
         </Style>
+        
+        <Style Selector="Button.dock-btn[Tag=True] /template/ Border#OuterRing">
+            <Setter Property="BorderBrush" Value="White"/>
+            <Setter Property="BorderThickness" Value="3"/>
+        </Style>
+
+        <Style Selector="Button.dock-btn[Tag=True]">
+            <Setter Property="RenderTransform">
+                <ScaleTransform ScaleX="1.1" ScaleY="1.1"/>
+            </Setter>
+        </Style>
 
     </UserControl.Styles>
 
@@ -317,15 +331,28 @@
 
                                     <!-- Home -->
                                     <Button Classes="dock-btn"
-                                            Command="{Binding ShowHomeCommand}">
+                                            x:DataType="nav:IFocusableItem"
+                                            DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).DockFocusGroup.Items[0]}"
+                                            Command="{Binding Command}">
+
+                                        <Button.Tag>
+                                            <Binding Path="IsSelected"/>
+                                        </Button.Tag>
 
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/home.png"
-                                               Width="40" Height="40"/>
+                                               Width="40"
+                                               Height="40"/>
                                     </Button>
 
                                     <!-- Phone -->
                                     <Button Classes="dock-btn"
-                                            Command="{Binding ShowPhoneCommand}">
+                                            x:DataType="nav:IFocusableItem"
+                                            DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).DockFocusGroup.Items[1]}"
+                                            Command="{Binding Command}">
+
+                                        <Button.Tag>
+                                            <Binding Path="IsSelected"/>
+                                        </Button.Tag>
 
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/phone.png"
                                                Width="40" Height="40"/>
@@ -333,7 +360,13 @@
 
                                     <!-- Maps -->
                                     <Button Classes="dock-btn"
-                                            Command="{Binding ShowMapsCommand}">
+                                            x:DataType="nav:IFocusableItem"
+                                            DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).DockFocusGroup.Items[2]}"
+                                            Command="{Binding Command}">
+
+                                        <Button.Tag>
+                                            <Binding Path="IsSelected"/>
+                                        </Button.Tag>
 
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/google-maps.png"
                                                Width="40" Height="40"/>
@@ -341,7 +374,13 @@
 
                                     <!-- Settings -->
                                     <Button Classes="dock-btn"
-                                            Command="{Binding ShowSettingsCommand}">
+                                            x:DataType="nav:IFocusableItem"
+                                            DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).DockFocusGroup.Items[3]}"
+                                            Command="{Binding Command}">
+
+                                        <Button.Tag>
+                                            <Binding Path="IsSelected"/>
+                                        </Button.Tag>
 
                                         <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/settings.png"
                                                Width="40" Height="40"/>
@@ -404,6 +443,7 @@
                                         </StackPanel>
 
                                         <ToggleSwitch Grid.Column="1"
+                                                      Focusable="False"
                                                       IsChecked="{Binding IsDarkTheme}"
                                                       OnContent=""
                                                       OffContent=""/>
@@ -425,6 +465,7 @@
                                         </StackPanel>
 
                                         <ToggleSwitch Grid.Column="1"
+                                                      Focusable="False"
                                                       IsChecked="{Binding IsClockBlinking}"
                                                       OnContent=""
                                                       OffContent=""/>
@@ -446,6 +487,7 @@
                                         </StackPanel>
 
                                         <ToggleSwitch Grid.Column="1"
+                                                      Focusable="False"
                                                       IsChecked="{Binding Is24HourFormat}"
                                                       OnContent=""
                                                       OffContent=""/>
@@ -848,6 +890,7 @@
 
                                         <!-- Progress Bar -->
                                         <Slider x:Name="ProgressSlider"
+                                                Focusable="False"
                                                 Minimum="0"
                                                 Maximum="{Binding Duration}"
                                                 Value="{Binding Progress}" />
@@ -864,8 +907,10 @@
                                                     Height="40"
                                                     CornerRadius="25"
                                                     Background="#C23030"
-                                                    Command="{Binding PreviousCommand}">
-                                                
+                                                    x:DataType="nav:IFocusableItem"
+                                                    DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).MusicFocusGroup.Items[0]}"
+                                                    Command="{Binding Command}">
+    
                                                 <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/previous-button.png"
                                                        Width="22"/>
                                             </Button>
@@ -876,14 +921,16 @@
                                                     Height="50"
                                                     Background="#C23030"
                                                     CornerRadius="25"
-                                                    Command="{Binding PlayPauseCommand}">
+                                                    x:DataType="nav:IFocusableItem"
+                                                    DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).MusicFocusGroup.Items[1]}"
+                                                    Command="{Binding Command}">
                                                 
                                                 <Grid>
 
                                                     <!-- Play -->
                                                     <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/play-button.png"
                                                            Width="26"
-                                                           Opacity="{Binding IsPlaying, Converter={StaticResource FalseToOne}}">
+                                                           Opacity="{Binding $parent[UserControl].((vm:MainDashboardViewModel)DataContext).IsPlaying, Converter={StaticResource FalseToOne}}">
                                                         
                                                         <Image.Transitions>
                                                             <Transitions>
@@ -895,7 +942,7 @@
                                                     <!-- Pause -->
                                                     <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/pause-button.png"
                                                            Width="26"
-                                                           Opacity="{Binding IsPlaying, Converter={StaticResource TrueToOne}}">
+                                                           Opacity="{Binding $parent[UserControl].((vm:MainDashboardViewModel)DataContext).IsPlaying, Converter={StaticResource TrueToOne}}">
                                                        
                                                         <Image.Transitions>
                                                             <Transitions>
@@ -912,7 +959,9 @@
                                                     Height="40"
                                                     CornerRadius="25"
                                                     Background="#C23030"
-                                                    Command="{Binding NextCommand}">
+                                                    x:DataType="nav:IFocusableItem"
+                                                    DataContext="{Binding $parent[Window].((vm:MainWindowViewModel)DataContext).MusicFocusGroup.Items[2]}"
+                                                    Command="{Binding Command}">
                                                 
                                                 <Image Source="avares://ZeroTouch.UI/Assets/Icons/Dark/next-button.png"
                                                        Width="22"/>
