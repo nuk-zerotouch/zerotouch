@@ -3,6 +3,7 @@ import websockets
 import json
 import time
 import random
+import pyautogui 
 
 # Global state
 clients = set()
@@ -11,12 +12,13 @@ gesture_debug = False
 driver_debug = False
 
 # Utils
-async def broadcast(message: dict):
+async def broadcast(message: dict, exclude=None):
     if not clients:
         return
-
     data = json.dumps(message)
-    await asyncio.gather(*(c.send(data) for c in clients))
+    targets = [c for c in clients if c != exclude] # Exclude the sender if specified
+    if targets:
+        await asyncio.gather(*(c.send(data) for c in targets), return_exceptions=True)
 
 GESTURES = [
     "swipe_left",
@@ -26,40 +28,52 @@ GESTURES = [
     "rotate_clockwise",
     "rotate_counterclockwise"
 ]
+GESTURE_KEY_MAP = {
+    "swipe_left": "left",   
+    "swipe_right": "right",  
+    "push": "enter",         
+    "tap": "space",          
+    "rotate_clockwise": "down",         
+    "rotate_counterclockwise": "up"     
+}
 
 async def handle_client(ws):
     global gesture_debug, driver_debug
-    
     clients.add(ws)
-    print("Client connected.")
+    print(f"Client connected. Total: {len(clients)}")
 
     try:
         async for msg in ws:
-            data = json.loads(msg)
-            print("[RECV]", data)
-    
-            if data.get("type") == "command":
-                cmd = data.get("cmd")
-                
-                if cmd == "set_gesture_debug":
-                    gesture_debug = bool(data.get("value", False))
-                    print("Gesture debug set to:", gesture_debug)
+            try:
+                data = json.loads(msg)
+                # print("[RECV]", data) # 除錯用
 
-                elif cmd == "set_driver_debug":
-                    driver_debug = bool(data.get("value", False))
-                    print("Driver debug set to:", driver_debug)
+                if data.get("type") == "gesture":
+                    gesture_name = data.get("gesture")
+                    
+                    # 鍵盤模擬 (Debug 用，若會重複觸發請註解掉)
+                    if gesture_name in GESTURE_KEY_MAP:
+                        key_to_press = GESTURE_KEY_MAP[gesture_name]
+                        print(f"[KEYBOARD] {gesture_name} -> {key_to_press}")
+                        pyautogui.press(key_to_press)
+                    
+                    # 廣播給前端 (讓 MainWindowViewModel 處理間接連動)
+                    await broadcast(data, exclude=ws)
+
+                elif data.get("type") == "command":
+                    # ... 處理指令邏輯 ...
+                    pass
+
+            except json.JSONDecodeError:
+                print("[ERROR] Received invalid JSON data")
+            except Exception as e:
+                print(f"[ERROR] Process error: {e}")
     
     except websockets.exceptions.ConnectionClosed:
         pass
     finally:
         clients.remove(ws)
         print("Client disconnected.")
-
-        if not clients:
-            gesture_debug = False
-            driver_debug = False
-            print("No clients -> reset debug flags to False")
-
 async def gesture_debug_loop():
     while True:
         await asyncio.sleep(random.uniform(0.5, 2.0))
