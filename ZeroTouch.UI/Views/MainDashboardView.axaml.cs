@@ -21,6 +21,7 @@ using NetTopologySuite.Geometries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ZeroTouch.UI.Navigation;
 using ZeroTouch.UI.ViewModels;
 
 namespace ZeroTouch.UI.Views
@@ -133,15 +134,33 @@ namespace ZeroTouch.UI.Views
         private List<MPoint> GetRoutePoints(string routeIdentifier)
         {
             string fileName;
+            
             switch (routeIdentifier)
             {
-                case "Home": fileName = "route-1.json"; break;
-                case "Work": fileName = "route-2.json"; break;
+                case "Home": 
+                    fileName = "route-1.json"; 
+                    break;
+                
+                case "Work": 
+                    fileName = "route-2.json"; 
+                    break;
+                
+                case "Gym":
+                    fileName = "route-3.json"; 
+                    break;
+                
+                case "School":
+                    fileName = "route-4.json"; 
+                    break;
+                
+                case "Cinema":
+                    fileName = "route-5.json"; 
+                    break;
+
                 default:
-                    if (routeIdentifier.StartsWith("route"))
-                        fileName = routeIdentifier.EndsWith(".json") ? routeIdentifier : $"{routeIdentifier}.json";
-                    else
-                        fileName = $"route-{routeIdentifier}.json";
+                    fileName = routeIdentifier.EndsWith(".json") 
+                        ? routeIdentifier 
+                        : $"{routeIdentifier}.json";
                     break;
             }
 
@@ -264,23 +283,17 @@ namespace ZeroTouch.UI.Views
 
         private void OnRouteBlockClicked(object? sender, PointerPressedEventArgs e)
         {
-            if (sender is Border clickedBorder && clickedBorder.Tag is string routeName)
+            if (sender is not Control control || control.DataContext is not FocusItemViewModel item)
+                return;
+
+            if (this.DataContext is not MainDashboardViewModel vm)
+                return;
+            
+            vm.RouteFocusGroup.SelectItem(item);
+                    
+            if (!item.IsArmed)
             {
-                if (_selectedRouteBorder != null)
-                {
-                    _selectedRouteBorder.Background = Avalonia.Media.SolidColorBrush.Parse("#252525");
-
-                    _selectedRouteBorder.BorderBrush = Avalonia.Media.Brushes.Transparent;
-
-                    _selectedRouteBorder.BorderThickness = new Thickness(0);
-                }
-
-                _selectedRouteBorder = clickedBorder;
-                _selectedRouteBorder.Background = Avalonia.Media.SolidColorBrush.Parse("#383838");
-                _selectedRouteBorder.BorderBrush = Avalonia.Media.SolidColorBrush.Parse("#2ECC71");
-                _selectedRouteBorder.BorderThickness = new Thickness(2);
-
-                PreviewRoute(routeName);
+                item.Activate();
             }
         }
 
@@ -548,6 +561,25 @@ namespace ZeroTouch.UI.Views
         {
             this.Loaded -= MainDashboardView_Loaded; // Prevent multiple calls
             InitializeMap(); // Initialize the main dashboard map at runtime
+            
+            if (DataContext is MainDashboardViewModel vm)
+            {
+                vm.PropertyChanged += (s, args) =>
+                {
+                    if (args.PropertyName == nameof(MainDashboardViewModel.PreviewRouteId))
+                    {
+                        PreviewRoute(vm.PreviewRouteId);
+                    }
+                    
+                    if (args.PropertyName == nameof(MainDashboardViewModel.NavigationRouteId))
+                    {
+                        if (!string.IsNullOrEmpty(vm.NavigationRouteId))
+                        {
+                            StartNavigation(vm.NavigationRouteId);
+                        }
+                    }
+                };
+            }
         }
 
         private void InitializeMapView_ForPreview()
