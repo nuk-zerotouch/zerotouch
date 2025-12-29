@@ -60,9 +60,108 @@ namespace ZeroTouch.UI.ViewModels
         {
             Dispatcher.UIThread.Post(() =>
             {
-                // gesture / driver_state
-                Console.WriteLine("[UI RECV] " + json);
+                try
+                {
+                    using var doc = JsonDocument.Parse(json);
+                    var root = doc.RootElement;
+
+                    if (root.TryGetProperty("type", out var typeProp) &&
+                        typeProp.GetString() == "gesture")
+                    {
+                        if (root.TryGetProperty("gesture", out var gestureProp))
+                        {
+                            string gestureName = gestureProp.GetString();
+                            Console.WriteLine($"[GESTURE] {gestureName}"); // Debug
+
+                            HandleGesture(gestureName);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("[UI RECV] " + json);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"JSON Parse Error: {ex.Message}");
+                }
             });
+        }
+
+        private void HandleGesture(string gesture)
+        {
+            // if (CurrentView != _dashboardViewModel) return;
+
+            bool isMapPage = _dashboardViewModel.CurrentPageIndex == 3;
+
+            switch (gesture)
+            {
+                case "swipe_up":
+                case "down2up":
+                    if (ActiveFocusGroup == _dashboardViewModel.RouteFocusGroup)
+                    {
+                        _dashboardViewModel.RouteFocusGroup.Move(-1);
+                    }
+                    else
+                    {
+                        ActiveFocusGroup = DockFocusGroup;
+                        DockFocusGroup.Move(-1);
+                    }
+                    break;
+
+                case "swipe_down":
+                case "up2down":
+                    if (ActiveFocusGroup == _dashboardViewModel.RouteFocusGroup)
+                    {
+                        _dashboardViewModel.RouteFocusGroup.Move(1);
+                    }
+                    else
+                    {
+                        ActiveFocusGroup = DockFocusGroup;
+                        DockFocusGroup.Move(1);
+                    }
+                    break;
+
+                case "swipe_left":
+                case "right2left":
+                    if (isMapPage)
+                    {
+                        if (ActiveFocusGroup == _dashboardViewModel.RouteFocusGroup)
+                        {
+                            ActiveFocusGroup = DockFocusGroup;
+                        }
+                    }
+                    else
+                    {
+                        ActiveFocusGroup = MusicFocusGroup;
+                        MusicFocusGroup.Move(-1);
+                    }
+                    break;
+
+                case "swipe_right":
+                case "left2right":
+                    if (isMapPage)
+                    {
+                        if (ActiveFocusGroup == DockFocusGroup)
+                        {
+                            ActiveFocusGroup = _dashboardViewModel.RouteFocusGroup;
+                        }
+                    }
+                    else
+                    {
+                        ActiveFocusGroup = MusicFocusGroup;
+                        MusicFocusGroup.Move(1);
+                    }
+                    break;
+
+                case "push":
+                case "tap":
+                    ActiveFocusGroup?.Activate();
+                    break;
+
+                case "rotate_clockwise":
+                    break;
+            }
         }
 
         public async Task SendCommand(string cmd, bool value)
