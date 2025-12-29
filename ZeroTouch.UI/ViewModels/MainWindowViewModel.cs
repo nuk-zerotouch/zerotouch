@@ -19,7 +19,7 @@ namespace ZeroTouch.UI.ViewModels
         
         public FocusGroup DockFocusGroup { get; }
         public FocusGroup MusicFocusGroup { get; }
-        
+
         private readonly AppWebSocketClient _wsClient;
 
         private readonly MainDashboardViewModel _dashboardViewModel;
@@ -59,7 +59,7 @@ namespace ZeroTouch.UI.ViewModels
             _wsClient.OnMessageReceived += OnWsMessage;
             _ = _wsClient.ConnectAsync("ws://localhost:8765");
         }
-        
+
         private void OnWsMessage(string json)
         {
             Dispatcher.UIThread.Post(() =>
@@ -142,7 +142,7 @@ namespace ZeroTouch.UI.ViewModels
                 CurrentView = _dashboardViewModel;
             }
         }
-        
+
         public async Task OnAppClosingAsync()
         {
             await SendCommand("set_gesture_debug", false);

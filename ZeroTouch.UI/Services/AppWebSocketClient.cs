@@ -21,11 +21,11 @@ namespace ZeroTouch.UI.Services
                 return;
 
             Cleanup();
-            
+
             // Create new instance for each connection attempt
             _client = new ClientWebSocket();
             _cts = new CancellationTokenSource();
-            
+
             try
             {
                 await _client.ConnectAsync(new Uri(uri), _cts.Token);
@@ -39,7 +39,7 @@ namespace ZeroTouch.UI.Services
                 Cleanup();
             }
         }
-        
+
         private async Task ReceiveLoopAsync(ClientWebSocket client, CancellationTokenSource cts)
         {
             var buffer = new byte[2048];
@@ -111,18 +111,38 @@ namespace ZeroTouch.UI.Services
                 Cleanup();
             }
         }
-        
+
         private void Cleanup()
         {
-            try { _cts?.Cancel(); } catch { }
-            try { _client?.Dispose(); } catch { }
-            try { _cts?.Dispose(); } catch { }
+            try
+            {
+                _cts?.Cancel();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                _client?.Dispose();
+            }
+            catch
+            {
+            }
+
+            try
+            {
+                _cts?.Dispose();
+            }
+            catch
+            {
+            }
 
             _client = null;
             _cts = null;
             _receiveTask = null;
         }
-        
+
         public async Task SendAsync(string json)
         {
             var client = _client;

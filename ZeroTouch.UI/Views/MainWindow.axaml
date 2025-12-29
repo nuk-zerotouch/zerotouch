@@ -13,7 +13,7 @@
     <Design.DataContext>
         <vm:MainWindowViewModel />
     </Design.DataContext>
-    
+
     <Grid>
         <!-- Default view: MainConsole. To test connection, change this value to GestureDebugView. -->
         <ContentControl Content="{Binding CurrentView}" />

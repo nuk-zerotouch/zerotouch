@@ -122,6 +122,30 @@ Or simply press `F5` in Visual Studio to start debugging.
 
 <br>
 
+## Running on Jetson Orin Nano (ARM64)
+
+When deploying ZeroTouch.UI on **Jetson Orin Nano (ARM64)**, you may encounter runtime errors related to native dependencies (e.g. SkiaSharp symbol resolution).
+
+To ensure correct execution, **do not run `dotnet run` directly**.  
+Instead, use the provided helper script:
+
+```bash
+./scripts/run-jetson.sh
+```
+
+If this is your first time running the script, make sure it is executable:
+
+```bash
+chmod +x scripts/run-jetson.sh
+```
+
+This script sets required environment variables (e.g. LD_PRELOAD) before launching the application.
+
+For details about the root cause and the workaround, see the 
+[docs/deployment/jetson.md](docs/deployment/jetson.md).
+
+<br>
+
 ## Project Structure
 
 ```bash

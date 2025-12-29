@@ -1,7 +1,5 @@
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Media;
-using Avalonia.Interactivity;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -15,13 +13,13 @@ namespace ZeroTouch.UI.Views
     {
         private bool _dragging;
         private double _startX;
-        
+
         private CancellationTokenSource? _soundCts;
 
         public DriverStateView()
         {
             InitializeComponent();
-            
+
             this.PropertyChanged += (s, e) =>
             {
                 if (e.Property == IsVisibleProperty)
@@ -37,26 +35,26 @@ namespace ZeroTouch.UI.Views
                 }
             };
         }
-        
+
         private void StartWarningSound()
         {
             StopWarningSound();
             _soundCts = new CancellationTokenSource();
             _ = PlaySoundLoop(_soundCts.Token);
         }
-        
+
         private void StopWarningSound()
         {
             _soundCts?.Cancel();
             _soundCts = null;
         }
-        
+
         private async Task PlaySoundLoop(CancellationToken token)
         {
             string soundPath = System.IO.Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory, 
-                "Assets", 
-                "Music", 
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Assets",
+                "Music",
                 "alarm.mp3");
 
             if (!System.IO.File.Exists(soundPath))
@@ -64,13 +62,13 @@ namespace ZeroTouch.UI.Views
                 Console.WriteLine($"[Error] Cannot find audio file. Path: {soundPath}");
                 return;
             }
-            
+
             while (!token.IsCancellationRequested)
             {
                 try
                 {
                     Process? process = null;
-                    
+
                     if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
                     {
                         // macOS uses afplay
@@ -79,7 +77,7 @@ namespace ZeroTouch.UI.Views
                     else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                     {
                         // Windows uses PowerShell play (or System.Media.SoundPlayer)
-                        
+
                         string psCommand = $"$wmp = New-Object -ComObject WMPlayer.OCX.7; " +
                                            $"$wmp.URL = '{soundPath}'; " +
                                            $"$wmp.Controls.play(); " +
@@ -93,7 +91,7 @@ namespace ZeroTouch.UI.Views
                             UseShellExecute = false
                         });
                     }
-                    
+
                     if (process != null)
                     {
                         try
@@ -103,11 +101,19 @@ namespace ZeroTouch.UI.Views
                         }
                         catch (OperationCanceledException)
                         {
-                            try { process.Kill(); } catch { /* Ignore kill process failure */ }
+                            try
+                            {
+                                process.Kill();
+                            }
+                            catch
+                            {
+                                /* Ignore kill process failure */
+                            }
+
                             throw;
                         }
                     }
-                    
+
                     // add delay before replay
                     await Task.Delay(200, token);
                 }

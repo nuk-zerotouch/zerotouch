@@ -7,15 +7,12 @@ namespace ZeroTouch.UI.ViewModels
 {
     public partial class DriverStateViewModel : ViewModelBase
     {
-        [ObservableProperty]
-        private bool _isFatigueActive = false;
+        [ObservableProperty] private bool _isFatigueActive = false;
 
-        [ObservableProperty]
-        private string _warningText = "⚠️ 偵測到駕駛疲勞\n請立即注意路況";
+        [ObservableProperty] private string _warningText = "⚠️ 偵測到駕駛疲勞\n請立即注意路況";
 
         // slider (0.0 ~ 1.0)
-        [ObservableProperty]
-        private double _slideProgress = 0.0;
+        [ObservableProperty] private double _slideProgress = 0.0;
 
         public DriverStateViewModel(AppWebSocketClient ws)
         {
@@ -45,7 +42,7 @@ namespace ZeroTouch.UI.ViewModels
                 // ignore invalid message
             }
         }
-        
+
         public void AcknowledgeFatigue()
         {
             IsFatigueActive = false;

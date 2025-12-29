@@ -8,6 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Timers;
 using System.Threading.Tasks;
+using ZeroTouch.UI.Navigation;
 using ZeroTouch.UI.Services;
 
 namespace ZeroTouch.UI.ViewModels
@@ -56,19 +57,33 @@ namespace ZeroTouch.UI.ViewModels
 
         // Navigation Info, e.g., "Turn Right", "Go Straight"
         [ObservableProperty] private string _navigationInstruction = "Follow Route";
-        
+
         // Navigation distance, e.g. "in 300 meters"
         [ObservableProperty] private string _navigationDistance = "Calculating...";
-        
+
         // Navigation Icon
-        [ObservableProperty]
-        private string _navigationIcon = "↑";
-        
+        [ObservableProperty] private string _navigationIcon = "↑";
+
         // Settings options
         [ObservableProperty] private bool _isDarkTheme = true;
         [ObservableProperty] private bool _isClockBlinking = true;
 
         [ObservableProperty] private IPageTransition _currentPageTransition;
+
+        [ObservableProperty] private string _previewRouteId = "";
+        [ObservableProperty] private string _navigationRouteId = "";
+
+        public FocusGroup RouteFocusGroup { get; }
+
+        [RelayCommand]
+        private void GoRoute(string routeName)
+        {
+            NavigationInstruction = $"Navigating to {routeName}...";
+            NavigationDistance = "Calculating...";
+            
+            NavigationRouteId = string.Empty; 
+            NavigationRouteId = routeName;
+        }
 
         private readonly IPageTransition _horizontalTransition = new CompositePageTransition
         {
@@ -141,6 +156,23 @@ namespace ZeroTouch.UI.ViewModels
                 Progress = pos;
                 Duration = dur;
             };
+
+            RouteFocusGroup = new FocusGroup([
+                new FocusItemViewModel(GoRouteCommand, "Home", null, PreviewRoute, true),
+                new FocusItemViewModel(GoRouteCommand, "Work", null, PreviewRoute, true),
+                new FocusItemViewModel(GoRouteCommand, "Gym", null, PreviewRoute, true),
+                new FocusItemViewModel(GoRouteCommand, "School", null, PreviewRoute, true),
+                new FocusItemViewModel(GoRouteCommand, "Cinema", null, PreviewRoute, true)
+            ]);
+        }
+
+        private void PreviewRoute(object? routeNameObj)
+        {
+            if (routeNameObj is string routeName)
+            {
+                PreviewRouteId = routeName;
+                NavigationInstruction = $"Preview: {routeName}"; 
+            }
         }
 
         private void UpdateTime()
@@ -214,7 +246,6 @@ namespace ZeroTouch.UI.ViewModels
             {
                 TemperatureBarBrush = new SolidColorBrush(Colors.Orange);
             }
-
         }
 
         private string GetIconPath(string condition)
@@ -343,12 +374,12 @@ namespace ZeroTouch.UI.ViewModels
             {
                 StartPoint = new RelativePoint(0, 0, RelativeUnit.Relative),
                 EndPoint = new RelativePoint(1, 0, RelativeUnit.Relative),
-                GradientStops = new GradientStops
-        {
-            new GradientStop(leftColor,   0.0),
-            new GradientStop(middleColor,0.5),
-            new GradientStop(rightColor,  1.0),
-        }
+                GradientStops =
+                [
+                    new GradientStop(leftColor, 0.0),
+                    new GradientStop(middleColor, 0.5),
+                    new GradientStop(rightColor, 1.0)
+                ]
             };
         }
 

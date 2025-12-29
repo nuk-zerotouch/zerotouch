@@ -38,7 +38,7 @@ namespace ZeroTouch.UI.Navigation
             SelectedIndex = index;
             Items[index].IsSelected = true;
         }
-        
+
         public void SelectItem(IFocusableItem item)
         {
             var index = Items.IndexOf(item);
