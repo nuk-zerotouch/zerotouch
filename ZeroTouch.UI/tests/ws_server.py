@@ -36,18 +36,26 @@ async def handle_client(ws):
     try:
         async for msg in ws:
             data = json.loads(msg)
-            print("[RECV]", data)
+            # print("[RECV]", data)
     
-            if data.get("type") == "command":
+            msg_type = data.get("type")
+
+            if msg_type == "command":
                 cmd = data.get("cmd")
+                print(f"[CMD] {cmd}")
                 
                 if cmd == "set_gesture_debug":
                     gesture_debug = bool(data.get("value", False))
-                    print("Gesture debug set to:", gesture_debug)
-
                 elif cmd == "set_driver_debug":
                     driver_debug = bool(data.get("value", False))
-                    print("Driver debug set to:", driver_debug)
+
+            elif msg_type == "gesture":
+                print(f"[RELAY-GESTURE] {data.get('gesture')}")
+                await broadcast(data)
+
+            elif msg_type == "driver_state":
+                print(f"[RELAY-DRIVER] {data.get('fatigue')}")
+                await broadcast(data)
     
     except websockets.exceptions.ConnectionClosed:
         pass
