@@ -146,6 +146,14 @@ For details about the root cause and the workaround, see the
 
 <br>
 
+## Running on macOS
+
+> [!NOTE]
+> libVLC-based media player is currently not supported on macOS.
+> See [docs/deployment/macos.md](docs/deployment/macos.md) for details.
+
+<br>
+
 ## Project Structure
 
 ```bash
