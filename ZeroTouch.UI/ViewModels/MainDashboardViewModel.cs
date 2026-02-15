@@ -57,6 +57,9 @@ namespace ZeroTouch.UI.ViewModels
         [ObservableProperty] private bool _isMuted = false;
         [ObservableProperty] private bool _isKeypadVisible = false;
         [ObservableProperty] private bool _isSpeakerOn = false;
+        
+        [ObservableProperty] private bool _isMusicFocused;
+        private System.Threading.CancellationTokenSource? _musicFocusCts;
 
         // Navigation Info, e.g., "Turn Right", "Go Straight"
         [ObservableProperty] private string _navigationInstruction = "Follow Route";
@@ -439,6 +442,8 @@ namespace ZeroTouch.UI.ViewModels
         [RelayCommand]
         private void PlayPause()
         {
+            _ = TriggerMusicFocusAsync();
+            
             if (IsPlaying)
             {
                 _player.Pause();
@@ -465,6 +470,7 @@ namespace ZeroTouch.UI.ViewModels
         [RelayCommand]
         private void Next()
         {
+            _ = TriggerMusicFocusAsync();
             SoundService.PlaySound("next.mp3");
             _player.Next();
             CurrentSong = _player.CurrentSongName;
@@ -474,6 +480,7 @@ namespace ZeroTouch.UI.ViewModels
         [RelayCommand]
         private void Previous()
         {
+            _ = TriggerMusicFocusAsync();
             SoundService.PlaySound("prev.mp3");
             _player.Previous();
             CurrentSong = _player.CurrentSongName;
@@ -484,6 +491,24 @@ namespace ZeroTouch.UI.ViewModels
         private void Seek(long value)
         {
             _player.Seek(value);
+        }
+        
+        private async Task TriggerMusicFocusAsync()
+        {
+            _musicFocusCts?.Cancel();
+            _musicFocusCts = new System.Threading.CancellationTokenSource();
+            var token = _musicFocusCts.Token;
+
+            IsMusicFocused = true;
+
+            try
+            {
+                await Task.Delay(5000, token);
+                IsMusicFocused = false;
+            }
+            catch (TaskCanceledException)
+            {
+            }
         }
 
         [RelayCommand]
